@@ -1,0 +1,29 @@
+---
+import Layout from "@layouts/Layout.astro";
+import Main from "@layouts/Main.astro";
+import Header from "@components/Header.astro";
+import Footer from "@components/Footer.astro";
+import ProjectCard from "@components/ProjectCard.astro";
+import { SITE } from "@config";
+import type { ProjectEntry } from "types";
+
+export interface Props {
+  posts: ProjectEntry[];
+}
+
+const { posts } = Astro.props;
+---
+
+<Layout title={`${SITE.title} | Projects`}>
+  <Header activeNav="projects" />
+  <Main pageTitle="Projects">
+    <ul>
+      {
+        posts.map(({ data, slug }) => (
+          <ProjectCard href={`/projects/${slug}/`} frontmatter={data} />
+        ))
+      }
+    </ul>
+  </Main>
+  <Footer />
+</Layout>

@@ -3,7 +3,7 @@ title: Build a kafka application in Python and Go
 description: Explore Kafka's fundamentals and implementation nuances, from theoretical underpinnings to hands-on coding examples, learn to leverage Kafka's distributed streaming platform effectively in both Python and Go environments.
 author: Vasileios Tsakalos
 pubDatetime: 2023-04-25T18:59:32.283Z
-#slug: refresh-oauth2-tokens-spring-boot-spring-cloud-azure
+slug: kafka-py-go
 featured: true
 draft: false
 tags:

@@ -15,8 +15,6 @@ tags:
 type: post
 ---
 
-<a href="https://www.oracle.com/internet-of-things/what-is-iot/#:~:text=What%20is%20IoT%3F,and%20systems%20over%20the%20internet">internet of things</a>
-
 <a href="https://kafka.apache.org/">Apache Kafka</a>
  is an open-source distributed event streaming platform used by <a href="https://kafka.apache.org/powered-by">thousands of companies</a> for high-performance data pipelines, streaming analytics, data integration, and mission-critical applications.
 

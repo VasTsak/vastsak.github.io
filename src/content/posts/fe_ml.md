@@ -1,17 +1,15 @@
 ---
-title: Build a kafka application in Python and Go
-description: Explore Kafka's fundamentals and implementation nuances, from theoretical underpinnings to hands-on coding examples, learn to leverage Kafka's distributed streaming platform effectively in both Python and Go environments.
+title: Feature engineering for Machine Learning
+description: Dive into the art of 'Feature Engineering for Machine Learning' with this comprehensive article, where we delve into the crucial process of crafting effective features to enhance model performance. Through insightful explanations and practical Python implementations, learn essential techniques to preprocess and engineer features, empowering your machine learning models with the ability to extract meaningful insights from data.
 author: Vasileios Tsakalos
-pubDatetime: 2023-04-25T18:59:32.283Z
+pubDatetime: 2023-08-15T08:58:32.283Z
 #slug: refresh-oauth2-tokens-spring-boot-spring-cloud-azure
 featured: true
 draft: false
 tags:
-  - Data engineering
-  - Streaming data
-  - kafka
+  - Machine Learning
+  - Data PreProcessing
   - python
-  - go
 type: post
 ---
 

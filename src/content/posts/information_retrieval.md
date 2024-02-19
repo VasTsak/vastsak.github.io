@@ -2,7 +2,7 @@
 title: Information retrieval with Python
 description: Explore the fundamentals of information retrieval through our detailed tutorial, coupled with practical Python implementation. Gain theoretical insights and apply them directly in Python, enhancing your understanding and proficiency in this essential field.
 author: Vasileios Tsakalos
-pubDatetime: 2023-04-11T18:59:32.283Z
+pubDatetime: 2023-04-11T20:10:32.283Z
 slug: information-retrieval-w-python
 featured: true
 draft: false

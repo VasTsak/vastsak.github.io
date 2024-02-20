@@ -141,37 +141,37 @@ declare module 'astro:content' {
   slug: "feature-engineering-f-machine-learning";
   body: string;
   collection: "posts";
-  data: any
+  data: InferEntrySchema<"posts">
 } & { render(): Render[".md"] };
 "information_retrieval.md": {
 	id: "information_retrieval.md";
   slug: "information-retrieval-w-python";
   body: string;
   collection: "posts";
-  data: any
+  data: InferEntrySchema<"posts">
 } & { render(): Render[".md"] };
 "kafka_py_go.md": {
 	id: "kafka_py_go.md";
   slug: "kafka-py-go";
   body: string;
   collection: "posts";
-  data: any
+  data: InferEntrySchema<"posts">
 } & { render(): Render[".md"] };
 "oop_ml.md": {
 	id: "oop_ml.md";
   slug: "oop_ml";
   body: string;
   collection: "posts";
-  data: any
+  data: InferEntrySchema<"posts">
 } & { render(): Render[".md"] };
 };
 "projects": {
-"streamdog.mdx": {
-	id: "streamdog.mdx";
+"trimate.mdx": {
+	id: "trimate.mdx";
   slug: "trimate";
   body: string;
   collection: "projects";
-  data: any
+  data: InferEntrySchema<"projects">
 } & { render(): Render[".mdx"] };
 };
 
@@ -183,5 +183,5 @@ declare module 'astro:content' {
 
 	type AnyEntryMap = ContentEntryMap & DataEntryMap;
 
-	export type ContentConfig = never;
+	export type ContentConfig = typeof import("../src/content/config.js");
 }

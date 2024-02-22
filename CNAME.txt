@@ -1,2 +1,2 @@
-_github-pages-challenge-VasTsak.vtsakalos.com
-VasTsak.github.io
+# _github-pages-challenge-VasTsak.vtsakalos.com
+# VasTsak.github.io

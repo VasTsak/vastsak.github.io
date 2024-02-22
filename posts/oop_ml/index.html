@@ -1,0 +1,518 @@
+<!DOCTYPE html><html lang="en" class="scroll-smooth" data-astro-transition-scope="astro-smooz4hq-1"><head><meta charset="UTF-8"><style>:where(img){height:auto;}</style><meta name="viewport" content="width=device-width"><link rel="icon" type="image/svg+xml" href="/favicon.png"><link rel="canonical" href="https://vtsakalos.com/posts/oop_ml/"><meta name="generator" content="Astro v4.4.0"><!-- General Meta Tags --><title>Vasileios Tsakalos | Build a kafka application in Python and Go</title><meta name="title" content="Vasileios Tsakalos | Build a kafka application in Python and Go"><meta name="description" content="Dive into the intersection of Object-Oriented Programming (OOP) and machine learning in our blog. Explore how OOP principles enhance the development and deployment of machine learning models, leveraging encapsulation, inheritance, and polymorphism to build scalable and efficient solutions."><meta name="author" content="Vasileios Tsakalos"><link rel="sitemap" href="/sitemap-index.xml"><!-- Open Graph / Facebook --><meta property="og:title" content="Vasileios Tsakalos | Build a kafka application in Python and Go"><meta property="og:description" content="Dive into the intersection of Object-Oriented Programming (OOP) and machine learning in our blog. Explore how OOP principles enhance the development and deployment of machine learning models, leveraging encapsulation, inheritance, and polymorphism to build scalable and efficient solutions."><meta property="og:url" content="https://vtsakalos.com/posts/oop_ml/"><meta property="og:image" content="https://vtsakalos.com/posts/build-a-kafka-application-in-python-and-go.png"><!-- Article Published/Modified time --><meta property="article:published_time" content="2023-11-14T08:29:32.283Z"><!-- Twitter --><meta property="twitter:card" content="summary_large_image"><meta property="twitter:url" content="https://vtsakalos.com/posts/oop_ml/"><meta property="twitter:title" content="Vasileios Tsakalos | Build a kafka application in Python and Go"><meta property="twitter:description" content="Dive into the intersection of Object-Oriented Programming (OOP) and machine learning in our blog. Explore how OOP principles enhance the development and deployment of machine learning models, leveraging encapsulation, inheritance, and polymorphism to build scalable and efficient solutions."><meta property="twitter:image" content="https://vtsakalos.com/posts/build-a-kafka-application-in-python-and-go.png"><!-- Google Font --><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin=""><link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&amp;display=swap" rel="stylesheet"><meta name="theme-color" content=""><meta name="astro-view-transitions-enabled" content="true"><meta name="astro-view-transitions-fallback" content="animate"><script src="/toggle-theme.js"></script><link rel="stylesheet" href="/_astro/index.CiARLz32.css">
+<style>.pagination-wrapper:where(.astro-d776pwuy){margin-bottom:1rem;margin-top:auto;display:flex;-webkit-user-select:none;-moz-user-select:none;user-select:none;justify-content:center}.disabled:where(.astro-d776pwuy){pointer-events:none;-webkit-user-select:none;-moz-user-select:none;user-select:none;opacity:.5}.disabled:where(.astro-d776pwuy):hover{--tw-text-opacity: 1;color:rgba(var(--color-text-base),var(--tw-text-opacity))}.group:where(.astro-d776pwuy):hover .disabled:where(.astro-d776pwuy){fill:rgb(var(--color-text-base))}.group:where(.astro-d776pwuy):hover .disabled-svg:where(.astro-d776pwuy){fill:rgb(var(--color-text-base))!important}
+a:where(.astro-blwjyjpt){position:relative;text-decoration-line:underline;text-decoration-style:dashed}a:where(.astro-blwjyjpt):hover{top:-.125rem;--tw-text-opacity: 1;color:rgba(var(--color-accent),var(--tw-text-opacity))}a:where(.astro-blwjyjpt):focus-visible{padding:.25rem}a:where(.astro-blwjyjpt) svg:where(.astro-blwjyjpt){margin-right:-1.25rem;height:1.5rem;width:1.5rem;--tw-scale-x: .95;--tw-scale-y: .95;transform:translate(var(--tw-translate-x),var(--tw-translate-y)) rotate(var(--tw-rotate)) skew(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));--tw-text-opacity: 1;color:rgba(var(--color-text-base),var(--tw-text-opacity));opacity:.8}.group:where(.astro-blwjyjpt):hover a:where(.astro-blwjyjpt) svg:where(.astro-blwjyjpt){fill:rgb(var(--color-accent))}
+main:where(.astro-rynkmgph){margin-left:auto;margin-right:auto;width:100%;max-width:64rem;padding-left:1rem;padding-right:1rem;padding-bottom:3rem}.post-title:where(.astro-rynkmgph){font-size:1.5rem;line-height:2rem;font-weight:600;--tw-text-opacity: 1;color:rgba(var(--color-accent),var(--tw-text-opacity))}
+</style><script type="module" src="/_astro/hoisted.B2MTPbHz.js"></script><style>[data-astro-transition-scope="astro-smooz4hq-1"] { view-transition-name: astro-smooz4hq-1; }@layer astro { ::view-transition-old(astro-smooz4hq-1) { animation: none; opacity: 0; mix-blend-mode: normal; }::view-transition-new(astro-smooz4hq-1) { animation: none; mix-blend-mode: normal; } }[data-astro-transition-fallback="old"] [data-astro-transition-scope="astro-smooz4hq-1"],
+			[data-astro-transition-fallback="old"][data-astro-transition-scope="astro-smooz4hq-1"] { animation: none; mix-blend-mode: normal; }[data-astro-transition-fallback="new"] [data-astro-transition-scope="astro-smooz4hq-1"],
+			[data-astro-transition-fallback="new"][data-astro-transition-scope="astro-smooz4hq-1"] { animation: none; mix-blend-mode: normal; }</style></head> <body>  <header class="astro-3ef6ksr2"> <a id="skip-to-content" href="#main-content" class="astro-3ef6ksr2">Skip to content</a> <div class="nav-container astro-3ef6ksr2"> <div class="top-nav-wrap astro-3ef6ksr2"> <a href="/" class="logo whitespace-nowrap astro-3ef6ksr2"> Vasileios Tsakalos </a> <nav id="nav-menu" class="astro-3ef6ksr2"> <button class="hamburger-menu focus-outline astro-3ef6ksr2" aria-label="Open Menu" aria-expanded="false" aria-controls="menu-items"> <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="menu-icon astro-3ef6ksr2"> <line x1="7" y1="12" x2="21" y2="12" class="line astro-3ef6ksr2"></line> <line x1="3" y1="6" x2="21" y2="6" class="line astro-3ef6ksr2"></line> <line x1="12" y1="18" x2="21" y2="18" class="line astro-3ef6ksr2"></line> <line x1="18" y1="6" x2="6" y2="18" class="close astro-3ef6ksr2"></line> <line x1="6" y1="6" x2="18" y2="18" class="close astro-3ef6ksr2"></line> </svg> </button> <ul id="menu-items" class="display-none sm:flex astro-3ef6ksr2"> <li class="astro-3ef6ksr2"> <a href="/posts/" class="active astro-3ef6ksr2">
+Posts
+</a> </li> <li class="astro-3ef6ksr2"> <a href="/tags/" class=" astro-3ef6ksr2">
+Tags
+</a> </li> <li class="astro-3ef6ksr2"> <a href="/projects/" class=" astro-3ef6ksr2">
+Projects
+</a> </li> <li class="astro-3ef6ksr2"> <a href="/services/" class=" astro-3ef6ksr2">
+Services
+</a> </li> <li class="astro-3ef6ksr2"> <a href="/about/" class=" astro-3ef6ksr2">
+About
+</a> </li> <li class="astro-3ef6ksr2"> <a href="/search/" class="group hover:text-skin-accent focus-outline p-3 sm:p-1  flex astro-3ef6ksr2" aria-label="Search" title="Search" target="_self"> <svg xmlns="http://www.w3.org/2000/svg" class="scale-125 sm:scale-100 astro-3ef6ksr2"><path d="M19.023 16.977a35.13 35.13 0 0 1-1.367-1.384c-.372-.378-.596-.653-.596-.653l-2.8-1.337A6.962 6.962 0 0 0 16 9c0-3.859-3.14-7-7-7S2 5.141 2 9s3.14 7 7 7c1.763 0 3.37-.66 4.603-1.739l1.337 2.8s.275.224.653.596c.387.363.896.854 1.384 1.367l1.358 1.392.604.646 2.121-2.121-.646-.604c-.379-.372-.885-.866-1.391-1.36zM9 14c-2.757 0-5-2.243-5-5s2.243-5 5-5 5 2.243 5 5-2.243 5-5 5z" class="astro-3ef6ksr2"></path> </svg> <span class="sr-only astro-3ef6ksr2">Search</span> </a> </li> <li class="astro-3ef6ksr2"> <button id="theme-btn" class="focus-outline astro-3ef6ksr2" title="Toggles light &amp; dark" aria-label="auto" aria-live="polite"> <svg xmlns="http://www.w3.org/2000/svg" id="moon-svg" class="astro-3ef6ksr2"> <path d="M20.742 13.045a8.088 8.088 0 0 1-2.077.271c-2.135 0-4.14-.83-5.646-2.336a8.025 8.025 0 0 1-2.064-7.723A1 1 0 0 0 9.73 2.034a10.014 10.014 0 0 0-4.489 2.582c-3.898 3.898-3.898 10.243 0 14.143a9.937 9.937 0 0 0 7.072 2.93 9.93 9.93 0 0 0 7.07-2.929 10.007 10.007 0 0 0 2.583-4.491 1.001 1.001 0 0 0-1.224-1.224zm-2.772 4.301a7.947 7.947 0 0 1-5.656 2.343 7.953 7.953 0 0 1-5.658-2.344c-3.118-3.119-3.118-8.195 0-11.314a7.923 7.923 0 0 1 2.06-1.483 10.027 10.027 0 0 0 2.89 7.848 9.972 9.972 0 0 0 7.848 2.891 8.036 8.036 0 0 1-1.484 2.059z" class="astro-3ef6ksr2"></path> </svg> <svg xmlns="http://www.w3.org/2000/svg" id="sun-svg" class="astro-3ef6ksr2"> <path d="M6.993 12c0 2.761 2.246 5.007 5.007 5.007s5.007-2.246 5.007-5.007S14.761 6.993 12 6.993 6.993 9.239 6.993 12zM12 8.993c1.658 0 3.007 1.349 3.007 3.007S13.658 15.007 12 15.007 8.993 13.658 8.993 12 10.342 8.993 12 8.993zM10.998 19h2v3h-2zm0-17h2v3h-2zm-9 9h3v2h-3zm17 0h3v2h-3zM4.219 18.363l2.12-2.122 1.415 1.414-2.12 2.122zM16.24 6.344l2.122-2.122 1.414 1.414-2.122 2.122zM6.342 7.759 4.22 5.637l1.415-1.414 2.12 2.122zm13.434 10.605-1.414 1.414-2.122-2.122 1.414-1.414z" class="astro-3ef6ksr2"></path> </svg> </button> </li> </ul> </nav> </div> </div> <div class="mx-auto px-4"> <hr class="border-skin-line" aria-hidden="true"> </div> </header>   <div class="mx-auto flex w-full max-w-5xl justify-start px-2 astro-rynkmgph"> <button class="focus-outline mb-2 mt-8 flex hover:opacity-75 astro-rynkmgph" onclick="(() => (history.length === 1) ? window.location = '/' : history.back())()"> <svg xmlns="http://www.w3.org/2000/svg" class="astro-rynkmgph"><path d="M13.293 6.293 7.586 12l5.707 5.707 1.414-1.414L10.414 12l4.293-4.293z" class="astro-rynkmgph"></path> </svg><span class="astro-rynkmgph">Go back</span> </button> </div> <main id="main-content" class="astro-rynkmgph"> <h1 class="post-title astro-rynkmgph">Build a kafka application in Python and Go</h1> <div class="flex items-center space-x-2 opacity-80 my-2 astro-rynkmgph"><svg xmlns="http://www.w3.org/2000/svg" class="scale-100 inline-block h-6 w-6 min-w-[1.375rem] fill-skin-base" aria-hidden="true"><path d="M7 11h2v2H7zm0 4h2v2H7zm4-4h2v2h-2zm0 4h2v2h-2zm4-4h2v2h-2zm0 4h2v2h-2z"></path><path d="M5 22h14c1.103 0 2-.897 2-2V6c0-1.103-.897-2-2-2h-2V2h-2v2H9V2H7v2H5c-1.103 0-2 .897-2 2v14c0 1.103.897 2 2 2zM19 8l.001 12H5V8h14z"></path></svg><span class="sr-only">Published:</span><span class="italic text-base"><time datetime="2023-11-14T08:29:32.283Z">Nov 14, 2023</time><span aria-hidden="true"> | </span><span class="sr-only">&nbsp;at&nbsp;</span><span class="text-nowrap">08:29 AM</span></span></div> <article id="article" role="article" class="prose max-w-full mt-4 astro-rynkmgph"> <p><a href="https://en.wikipedia.org/wiki/Alan_Kay">Alan Kay</a></p>
+<p>Object-oriented programming (OOP) is a programming style that makes code easier to understand, reuse, and maintain. It was inspired by the way cells communicate with each other and was coined by <a href="https://en.wikipedia.org/wiki/Alan_Kay">Alan Kay</a> in the 1970s.</p>
+<p>OOP is a powerful paradigm that can be used to develop a wide variety of software applications. It is important to note that OOP is not a silver bullet, and it is not the best solution for every problem. However, it can be a valuable tool for programmers who want to write code that is more modular, reusable, and maintainable. This blog post will examine the advantages, and potential pitfalls of OOP while illustrating how can someone use it to create predictive models.</p>
+<h1 id="core-principles">Core principles</h1>
+<p>Object oriented programming has four main principles</p>
+<h2 id="abstraction">Abstraction</h2>
+<p>Abstraction is the process of hiding the implementation details of an object from the outside world. Think about your coffee machine, you only want to make your coffee by pushing one button, you don’t want to know what happens inside the machine.</p>
+<div style="text-align:center">
+    <img src="../../assets/images/posts/oop_ml/coffee_machine.webp" alt="iqred" width="300" fetchpriority="high" decoding="async">
+</div>
+<h3 id="pros">Pros:</h3>
+<ul>
+<li>
+<p><strong>Simplicity</strong>: users focus on the object’s functionality rather than its implementation;</p>
+</li>
+<li>
+<p><strong>Modularity</strong>: enables developers to break down complex systems into smaller modules, which makes it easier to develop, maintain, test;</p>
+</li>
+<li>
+<p><strong>Maintainability</strong>: it makes it easier to maintain and update a piece of code since you only need to change the internal implementation of the abstraction without affecting the code using it. However, for this one you should consider <a href="https://www.digitalocean.com/community/conceptual-articles/s-o-l-i-d-the-first-five-principles-of-object-oriented-design">SOLID</a> principles because you may end up causing issues;</p>
+</li>
+<li>
+<p><strong>Security</strong>: enables developers hide information from the user (let’s say you are a vendor and you want your user only to use the high level methods and not know your methodology details)</p>
+</li>
+</ul>
+<p>Abstraction is very powerful, but it can cause problems if it is not used cautiously.</p>
+<h3 id="pitfalls">Pitfalls:</h3>
+<ul>
+<li>
+<p><strong>Increased complexity</strong>: abstraction can lead to overly complex code, especially if it is used heavily. This can make it difficult to debug and test the code, imagine if you have to open many modules in order to see what is the functionality of a method;</p>
+</li>
+<li>
+<p><strong>Hidden costs</strong>: abstraction can hide the true cost and time it takes to implement a feature;</p>
+</li>
+</ul>
+<h3 id="example">Example</h3>
+<p>We will go through an example to illustrate abstraction, we will create a class for <a href="https://en.wikipedia.org/wiki/Linear_regression">linear regression</a> where the user can train it with labelled data points and infer predictions based on new data points.</p>
+<p>The code for the class will be the following:</p>
+<pre class="astro-code one-dark-pro" style="background-color:#282c34;color:#abb2bf; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0"><code><span class="line"><span style="color:#C678DD">import</span><span style="color:#ABB2BF"> numpy </span><span style="color:#C678DD">as</span><span style="color:#ABB2BF"> np</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#C678DD">class</span><span style="color:#E5C07B"> LinearRegressionModel</span><span style="color:#ABB2BF">:</span></span>
+<span class="line"><span style="color:#C678DD">    def</span><span style="color:#56B6C2"> __init__</span><span style="color:#ABB2BF">(</span><span style="color:#E5C07B;font-style:italic">self</span><span style="color:#ABB2BF">):</span></span>
+<span class="line"><span style="color:#E5C07B">        self</span><span style="color:#ABB2BF">.__coefficients </span><span style="color:#56B6C2">=</span><span style="color:#D19A66"> None</span></span>
+<span class="line"><span style="color:#ABB2BF">        </span></span>
+<span class="line"><span style="color:#C678DD">    def</span><span style="color:#61AFEF"> train</span><span style="color:#ABB2BF">(</span><span style="color:#E5C07B;font-style:italic">self</span><span style="color:#ABB2BF">, </span><span style="color:#D19A66;font-style:italic">X</span><span style="color:#ABB2BF">, </span><span style="color:#D19A66;font-style:italic">y</span><span style="color:#ABB2BF">):</span></span>
+<span class="line"><span style="color:#ABB2BF">        X_with_bias </span><span style="color:#56B6C2">=</span><span style="color:#ABB2BF"> np.c_[np.</span><span style="color:#61AFEF">ones</span><span style="color:#ABB2BF">((X.shape[</span><span style="color:#D19A66">0</span><span style="color:#ABB2BF">], </span><span style="color:#D19A66">1</span><span style="color:#ABB2BF">)), X]</span></span>
+<span class="line"><span style="color:#E5C07B">        self</span><span style="color:#ABB2BF">.__coefficients </span><span style="color:#56B6C2">=</span><span style="color:#ABB2BF"> np.linalg.</span><span style="color:#61AFEF">inv</span><span style="color:#ABB2BF">(X_with_bias.T.</span><span style="color:#61AFEF">dot</span><span style="color:#ABB2BF">(X_with_bias)).</span><span style="color:#61AFEF">dot</span><span style="color:#ABB2BF">(X_with_bias.T).</span><span style="color:#61AFEF">dot</span><span style="color:#ABB2BF">(y)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#C678DD">    def</span><span style="color:#61AFEF"> predict</span><span style="color:#ABB2BF">(</span><span style="color:#E5C07B;font-style:italic">self</span><span style="color:#ABB2BF">, </span><span style="color:#D19A66;font-style:italic">X</span><span style="color:#ABB2BF">):</span></span>
+<span class="line"><span style="color:#C678DD">        if</span><span style="color:#E5C07B"> self</span><span style="color:#ABB2BF">.__coefficients </span><span style="color:#C678DD">is</span><span style="color:#D19A66"> None</span><span style="color:#ABB2BF">:</span></span>
+<span class="line"><span style="color:#C678DD">            raise</span><span style="color:#ABB2BF"> ValueError(</span><span style="color:#98C379">"Model has not been trained."</span><span style="color:#ABB2BF">)</span></span>
+<span class="line"><span style="color:#ABB2BF">        </span></span>
+<span class="line"><span style="color:#ABB2BF">        X_with_bias </span><span style="color:#56B6C2">=</span><span style="color:#ABB2BF"> np.c_[np.</span><span style="color:#61AFEF">ones</span><span style="color:#ABB2BF">((X.shape[</span><span style="color:#D19A66">0</span><span style="color:#ABB2BF">], </span><span style="color:#D19A66">1</span><span style="color:#ABB2BF">)), X]</span></span>
+<span class="line"><span style="color:#ABB2BF">        predictions </span><span style="color:#56B6C2">=</span><span style="color:#ABB2BF"> X_with_bias.</span><span style="color:#61AFEF">dot</span><span style="color:#ABB2BF">(</span><span style="color:#E5C07B">self</span><span style="color:#ABB2BF">.__coefficients)</span></span>
+<span class="line"><span style="color:#C678DD">        return</span><span style="color:#ABB2BF"> predictions</span></span></code></pre>
+<p>Now the user, in order to train the linear regression with new data points, they only need to run the following code:</p>
+<pre class="astro-code one-dark-pro" style="background-color:#282c34;color:#abb2bf; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0"><code><span class="line"><span style="color:#ABB2BF">X_train </span><span style="color:#56B6C2">=</span><span style="color:#ABB2BF"> np.</span><span style="color:#61AFEF">array</span><span style="color:#ABB2BF">([[</span><span style="color:#D19A66">1.0</span><span style="color:#ABB2BF">], [</span><span style="color:#D19A66">2.0</span><span style="color:#ABB2BF">], [</span><span style="color:#D19A66">3.0</span><span style="color:#ABB2BF">], [</span><span style="color:#D19A66">4.0</span><span style="color:#ABB2BF">], [</span><span style="color:#D19A66">5.0</span><span style="color:#ABB2BF">]]) </span></span>
+<span class="line"><span style="color:#ABB2BF">y_train </span><span style="color:#56B6C2">=</span><span style="color:#ABB2BF"> np.</span><span style="color:#61AFEF">array</span><span style="color:#ABB2BF">([</span><span style="color:#D19A66">2.0</span><span style="color:#ABB2BF">, </span><span style="color:#D19A66">4.0</span><span style="color:#ABB2BF">, </span><span style="color:#D19A66">6.0</span><span style="color:#ABB2BF">, </span><span style="color:#D19A66">8.0</span><span style="color:#ABB2BF">, </span><span style="color:#D19A66">10.0</span><span style="color:#ABB2BF">])</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#7F848E;font-style:italic"># Create an instance of the LinearRegressionModel </span></span>
+<span class="line"><span style="color:#ABB2BF">model </span><span style="color:#56B6C2">=</span><span style="color:#61AFEF"> LinearRegressionModel</span><span style="color:#ABB2BF">()  </span></span>
+<span class="line"><span style="color:#7F848E;font-style:italic"># Train the model </span></span>
+<span class="line"><span style="color:#ABB2BF">model.</span><span style="color:#61AFEF">train</span><span style="color:#ABB2BF">(X_train, y_train) </span></span></code></pre>
+<p>In order for the user to run inference based on new data points, they only need to do the following:</p>
+<pre class="astro-code one-dark-pro" style="background-color:#282c34;color:#abb2bf; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0"><code><span class="line"><span style="color:#ABB2BF">X_test </span><span style="color:#56B6C2">=</span><span style="color:#ABB2BF"> np.</span><span style="color:#61AFEF">array</span><span style="color:#ABB2BF">([[</span><span style="color:#D19A66">2.0</span><span style="color:#ABB2BF">], [</span><span style="color:#D19A66">3.0</span><span style="color:#ABB2BF">], [</span><span style="color:#D19A66">6.0</span><span style="color:#ABB2BF">]])</span></span>
+<span class="line"><span style="color:#ABB2BF">model.</span><span style="color:#61AFEF">predict</span><span style="color:#ABB2BF">(X_test)</span></span></code></pre>
+<p>array([ 4.,  6., 12.])</p>
+<p>We can see the benefits of abstraction on the example above, the user doesn’t need to know the specifics of the train or predict methods in order to utilise them. Moreover, if a developer wants to fix issues in the method train or predict, they don’t need to change any other piece of code using those methods.</p>
+<h2 id="encapsulation">Encapsulation</h2>
+<p>Encapsulation is a programming concept that bundles attributes and methods which operate in those attributes in a single unit. This allow us to hide and protect the internal state of the classes’ attributes by managing how they are used and accessed. Think of your coffee machine again, you don’t have access (easily) to the mechanics (inside the box) because it is best for you not to mess something up.</p>
+<div style="text-align:center">
+    <img src="../../assets/images/posts/oop_ml/coffee_machine_encaps.webp" alt="iqred" width="300" loading="lazy" decoding="async">
+</div>
+<h3 id="pros-1">Pros:</h3>
+<ul>
+<li>
+<p><strong>Controlled access</strong>: encapsulation provides a controlled way to modify the internal state of an object, for example if you ask a user to input their date of birth, you would not accept values below the date of birth of the oldest person alive or above today’s date.</p>
+</li>
+<li>
+<p><strong>Security</strong>: Encapsulation can help to improve the security of a system by hiding sensitive information from unauthorized users. A famous example of encapsulation failure (many of us had to write patches before Christmas break) is the <a href="https://www.dynatrace.com/news/blog/what-is-log4shell/">Log4j library vulnerability</a>. which allowed attackers to run arbitrary code to servers that were using the Log4j library.</p>
+</li>
+<li>
+<p><strong>Hiding Data</strong>: Encapsulation allows you to hide the internal state (attributes) of an object from external access, which helps protect the integrity of the data.</p>
+</li>
+<li>
+<p><strong>Modularity</strong>: Encapsulation facilitates modularity by encapsulating related data and behaviour within a class. This makes it easier to manage and maintain code because changes to one class have limited impact on other parts of the codebase.</p>
+</li>
+</ul>
+<p>###&nbsp;Pitfalls:</p>
+<ul>
+<li>
+<p><strong>Inflexibility</strong>: If the class is too encapsulated, it might be difficult to extend or modify without changing its interface.</p>
+</li>
+<li>
+<p><strong>Excessive complexity</strong>: Over-encapsulation may lead to increased complexity, making the code more difficult to understand and maintain.</p>
+</li>
+<li>
+<p><strong>Excessive use of Getters and Setters</strong>: not all attributes need to be private, using a setter and getter for every attribute can lead to <a href="https://deviq.com/domain-driven-design/anemic-model">anemic objects</a>.</p>
+</li>
+<li>
+<p><strong>Difficulty in debugging</strong>: Debugging becomes harder when you can’t easily inspect the internal state of an object.</p>
+</li>
+<li>
+<p><strong>Difficulty in testing</strong>: Unit-testing becomes harder when the internal state of an object is well-hidden.</p>
+</li>
+<li>
+<p><strong>Computational overhead</strong>: Using getters and setters for simple attributes can introduce a performance overhead, as they involve method calls.</p>
+</li>
+</ul>
+<h3 id="example-1">Example</h3>
+<p>As a predictive model developer you don’t want people to manually intervene into the insides of your algorithm, so it makes sense to keep the parameters of the algorithm private. But for interpretability reasons you may want your users to know how your model produces its output, therefore having a getter function could help you. We will illustrate this below:</p>
+<pre class="astro-code one-dark-pro" style="background-color:#282c34;color:#abb2bf; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0"><code><span class="line"><span style="color:#C678DD">import</span><span style="color:#ABB2BF"> numpy </span><span style="color:#C678DD">as</span><span style="color:#ABB2BF"> np</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#C678DD">class</span><span style="color:#E5C07B"> LinearRegressionModel</span><span style="color:#ABB2BF">:</span></span>
+<span class="line"><span style="color:#C678DD">    def</span><span style="color:#56B6C2"> __init__</span><span style="color:#ABB2BF">(</span><span style="color:#E5C07B;font-style:italic">self</span><span style="color:#ABB2BF">):</span></span>
+<span class="line"><span style="color:#E5C07B">        self</span><span style="color:#ABB2BF">.__coefficients </span><span style="color:#56B6C2">=</span><span style="color:#D19A66"> None</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#C678DD">    def</span><span style="color:#61AFEF"> get_coefficients</span><span style="color:#ABB2BF">(</span><span style="color:#E5C07B;font-style:italic">self</span><span style="color:#ABB2BF">):</span></span>
+<span class="line"><span style="color:#C678DD">        return</span><span style="color:#E5C07B"> self</span><span style="color:#ABB2BF">.__coefficients</span></span>
+<span class="line"><span style="color:#ABB2BF">        </span></span>
+<span class="line"><span style="color:#C678DD">    def</span><span style="color:#61AFEF"> train</span><span style="color:#ABB2BF">(</span><span style="color:#E5C07B;font-style:italic">self</span><span style="color:#ABB2BF">, </span><span style="color:#D19A66;font-style:italic">X</span><span style="color:#ABB2BF">, </span><span style="color:#D19A66;font-style:italic">y</span><span style="color:#ABB2BF">):</span></span>
+<span class="line"><span style="color:#ABB2BF">        X_with_bias </span><span style="color:#56B6C2">=</span><span style="color:#ABB2BF"> np.c_[np.</span><span style="color:#61AFEF">ones</span><span style="color:#ABB2BF">((X.shape[</span><span style="color:#D19A66">0</span><span style="color:#ABB2BF">], </span><span style="color:#D19A66">1</span><span style="color:#ABB2BF">)), X]</span></span>
+<span class="line"><span style="color:#E5C07B">        self</span><span style="color:#ABB2BF">.__coefficients </span><span style="color:#56B6C2">=</span><span style="color:#ABB2BF"> np.linalg.</span><span style="color:#61AFEF">inv</span><span style="color:#ABB2BF">(X_with_bias.T.</span><span style="color:#61AFEF">dot</span><span style="color:#ABB2BF">(X_with_bias)).</span><span style="color:#61AFEF">dot</span><span style="color:#ABB2BF">(X_with_bias.T).</span><span style="color:#61AFEF">dot</span><span style="color:#ABB2BF">(y)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#C678DD">    def</span><span style="color:#61AFEF"> predict</span><span style="color:#ABB2BF">(</span><span style="color:#E5C07B;font-style:italic">self</span><span style="color:#ABB2BF">, </span><span style="color:#D19A66;font-style:italic">X</span><span style="color:#ABB2BF">):</span></span>
+<span class="line"><span style="color:#C678DD">        if</span><span style="color:#E5C07B"> self</span><span style="color:#ABB2BF">.__coefficients </span><span style="color:#C678DD">is</span><span style="color:#D19A66"> None</span><span style="color:#ABB2BF">:</span></span>
+<span class="line"><span style="color:#C678DD">            raise</span><span style="color:#ABB2BF"> ValueError(</span><span style="color:#98C379">"Model has not been trained."</span><span style="color:#ABB2BF">)</span></span>
+<span class="line"><span style="color:#ABB2BF">        </span></span>
+<span class="line"><span style="color:#ABB2BF">        X_with_bias </span><span style="color:#56B6C2">=</span><span style="color:#ABB2BF"> np.c_[np.</span><span style="color:#61AFEF">ones</span><span style="color:#ABB2BF">((X.shape[</span><span style="color:#D19A66">0</span><span style="color:#ABB2BF">], </span><span style="color:#D19A66">1</span><span style="color:#ABB2BF">)), X]</span></span>
+<span class="line"><span style="color:#ABB2BF">        predictions </span><span style="color:#56B6C2">=</span><span style="color:#ABB2BF"> X_with_bias.</span><span style="color:#61AFEF">dot</span><span style="color:#ABB2BF">(</span><span style="color:#E5C07B">self</span><span style="color:#ABB2BF">.__coefficients)</span></span>
+<span class="line"><span style="color:#C678DD">        return</span><span style="color:#ABB2BF"> predictions</span></span></code></pre>
+<p>Let’s run it, to see how it should look like:</p>
+<pre class="astro-code one-dark-pro" style="background-color:#282c34;color:#abb2bf; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0"><code><span class="line"><span style="color:#ABB2BF">X_train </span><span style="color:#56B6C2">=</span><span style="color:#ABB2BF"> np.</span><span style="color:#61AFEF">array</span><span style="color:#ABB2BF">([[</span><span style="color:#D19A66">1.0</span><span style="color:#ABB2BF">], [</span><span style="color:#D19A66">2.0</span><span style="color:#ABB2BF">], [</span><span style="color:#D19A66">3.0</span><span style="color:#ABB2BF">], [</span><span style="color:#D19A66">4.0</span><span style="color:#ABB2BF">], [</span><span style="color:#D19A66">5.0</span><span style="color:#ABB2BF">]]) </span></span>
+<span class="line"><span style="color:#ABB2BF">y_train </span><span style="color:#56B6C2">=</span><span style="color:#ABB2BF"> np.</span><span style="color:#61AFEF">array</span><span style="color:#ABB2BF">([</span><span style="color:#D19A66">2.0</span><span style="color:#ABB2BF">, </span><span style="color:#D19A66">4.0</span><span style="color:#ABB2BF">, </span><span style="color:#D19A66">6.0</span><span style="color:#ABB2BF">, </span><span style="color:#D19A66">8.0</span><span style="color:#ABB2BF">, </span><span style="color:#D19A66">10.0</span><span style="color:#ABB2BF">])</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#7F848E;font-style:italic"># Create an instance of the LinearRegressionModel </span></span>
+<span class="line"><span style="color:#ABB2BF">model </span><span style="color:#56B6C2">=</span><span style="color:#61AFEF"> LinearRegressionModel</span><span style="color:#ABB2BF">()  </span></span>
+<span class="line"><span style="color:#7F848E;font-style:italic"># Train the model </span></span>
+<span class="line"><span style="color:#ABB2BF">model.</span><span style="color:#61AFEF">train</span><span style="color:#ABB2BF">(X_train, y_train) </span></span>
+<span class="line"><span style="color:#7F848E;font-style:italic"># Get coefficients</span></span>
+<span class="line"><span style="color:#ABB2BF">model.</span><span style="color:#61AFEF">get_coefficients</span><span style="color:#ABB2BF">()</span></span></code></pre>
+<p>array([5.32907052e-15, 2.00000000e+00])</p>
+<p>You can see that by using a getter function you can control what the user can see. In case you want for the user to be able to make (controlled) changes at the state of the object, you can use a setter function. For example, if you want to build an application which takes as input weight, you shouldn’t accept negative values.</p>
+<h2 id="inheritance">Inheritance</h2>
+<blockquote>
+<p>Inheritance refers to the assets that an individual bequeaths to their loved ones after they pass away.</p>
+</blockquote>
+<p>In OOP, inheritance is a way for a class to inherit the characteristics (attributes) and behaviours (methods) of another class. You can create a new class using an existing class, and then you can modify its own unique features. Just like your coffee machine that is a water processing machine which has common attributes and behaviours with other water processing machines such as a kettle or a tea maker.</p>
+<div style="text-align:center">
+    <img src="../../assets/images/posts/oop_ml/inheritance.webp" alt="iqred" width="500" loading="lazy" decoding="async">
+</div>
+<h3 id="pros-2">Pros</h3>
+<ul>
+<li>
+<p><strong>Reusability</strong>: Inheritance enables you to reuse code from the parent (base) class in one or more child (derived) classes.</p>
+</li>
+<li>
+<p><strong>Modularity and Maintenance</strong>: Inheritance hierarchies aid in structuring and organizing your code, enhancing its modularity and maintainability. They achieve this by grouping shared attributes and behaviours in higher-level classes and defining specialized behaviours in lower-level classes.</p>
+</li>
+<li>
+<p><strong>Conceptual clarity</strong>: Inheritance models have “IS-A” relationships, which can provide a clear way to represent relationships among classes. A derived object IS A parent object (coffee machine IS A water processing machine).</p>
+</li>
+</ul>
+<h3 id="pitfalls-1">Pitfalls</h3>
+<ul>
+<li>
+<p><strong>Tight coupling</strong>: Inheritance creates a tight coupling between parent and child classes, changes in parent class can affect the behaviour of the child classes.</p>
+</li>
+<li>
+<p><strong>Overuse</strong>: Overusing inheritance can lead to deep and complex hierarchies making the code harder to understand and maintain, aka <a href="https://www.educative.io/answers/what-is-a-diamond-problem-in-object-oriented-programming">diamond problem</a>.</p>
+</li>
+<li>
+<p><strong>Inappropriate subclassing</strong>: creating an inheritance may not be semantically correct, which can lead to incorrect modeling and therefore understanding.</p>
+</li>
+<li>
+<p><strong>Difficulty in testing</strong>: it can be challenging to test behaviours of derived classes.</p>
+</li>
+</ul>
+<h3 id="example-2">Example</h3>
+<p>Assume you want to limit the predictions of the linear regression to a specific value (prediction thresholding). For this scenario, we will create a subclass from the linear regression model where we apply a prediction thresholding.</p>
+<pre class="astro-code one-dark-pro" style="background-color:#282c34;color:#abb2bf; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0"><code><span class="line"><span style="color:#C678DD">import</span><span style="color:#ABB2BF"> numpy </span><span style="color:#C678DD">as</span><span style="color:#ABB2BF"> np</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#C678DD">class</span><span style="color:#E5C07B"> LinearRegressionModel</span><span style="color:#ABB2BF">:</span></span>
+<span class="line"><span style="color:#C678DD">    def</span><span style="color:#56B6C2"> __init__</span><span style="color:#ABB2BF">(</span><span style="color:#E5C07B;font-style:italic">self</span><span style="color:#ABB2BF">):</span></span>
+<span class="line"><span style="color:#E5C07B">        self</span><span style="color:#ABB2BF">.__coefficients </span><span style="color:#56B6C2">=</span><span style="color:#D19A66"> None</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#C678DD">    def</span><span style="color:#61AFEF"> get_coefficients</span><span style="color:#ABB2BF">(</span><span style="color:#E5C07B;font-style:italic">self</span><span style="color:#ABB2BF">):</span></span>
+<span class="line"><span style="color:#C678DD">        return</span><span style="color:#E5C07B"> self</span><span style="color:#ABB2BF">.__coefficients</span></span>
+<span class="line"><span style="color:#ABB2BF">        </span></span>
+<span class="line"><span style="color:#C678DD">    def</span><span style="color:#61AFEF"> train</span><span style="color:#ABB2BF">(</span><span style="color:#E5C07B;font-style:italic">self</span><span style="color:#ABB2BF">, </span><span style="color:#D19A66;font-style:italic">X</span><span style="color:#ABB2BF">, </span><span style="color:#D19A66;font-style:italic">y</span><span style="color:#ABB2BF">):</span></span>
+<span class="line"><span style="color:#ABB2BF">        X_with_bias </span><span style="color:#56B6C2">=</span><span style="color:#ABB2BF"> np.c_[np.</span><span style="color:#61AFEF">ones</span><span style="color:#ABB2BF">((X.shape[</span><span style="color:#D19A66">0</span><span style="color:#ABB2BF">], </span><span style="color:#D19A66">1</span><span style="color:#ABB2BF">)), X]</span></span>
+<span class="line"><span style="color:#E5C07B">        self</span><span style="color:#ABB2BF">.__coefficients </span><span style="color:#56B6C2">=</span><span style="color:#ABB2BF"> np.linalg.</span><span style="color:#61AFEF">inv</span><span style="color:#ABB2BF">(X_with_bias.T.</span><span style="color:#61AFEF">dot</span><span style="color:#ABB2BF">(X_with_bias)).</span><span style="color:#61AFEF">dot</span><span style="color:#ABB2BF">(X_with_bias.T).</span><span style="color:#61AFEF">dot</span><span style="color:#ABB2BF">(y)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#C678DD">    def</span><span style="color:#61AFEF"> predict</span><span style="color:#ABB2BF">(</span><span style="color:#E5C07B;font-style:italic">self</span><span style="color:#ABB2BF">, </span><span style="color:#D19A66;font-style:italic">X</span><span style="color:#ABB2BF">):</span></span>
+<span class="line"><span style="color:#C678DD">        if</span><span style="color:#E5C07B"> self</span><span style="color:#ABB2BF">.__coefficients </span><span style="color:#C678DD">is</span><span style="color:#D19A66"> None</span><span style="color:#ABB2BF">:</span></span>
+<span class="line"><span style="color:#C678DD">            raise</span><span style="color:#ABB2BF"> ValueError(</span><span style="color:#98C379">"Model has not been trained."</span><span style="color:#ABB2BF">)</span></span>
+<span class="line"><span style="color:#ABB2BF">        </span></span>
+<span class="line"><span style="color:#ABB2BF">        X_with_bias </span><span style="color:#56B6C2">=</span><span style="color:#ABB2BF"> np.c_[np.</span><span style="color:#61AFEF">ones</span><span style="color:#ABB2BF">((X.shape[</span><span style="color:#D19A66">0</span><span style="color:#ABB2BF">], </span><span style="color:#D19A66">1</span><span style="color:#ABB2BF">)), X]</span></span>
+<span class="line"><span style="color:#ABB2BF">        predictions </span><span style="color:#56B6C2">=</span><span style="color:#ABB2BF"> X_with_bias.</span><span style="color:#61AFEF">dot</span><span style="color:#ABB2BF">(</span><span style="color:#E5C07B">self</span><span style="color:#ABB2BF">.__coefficients)</span></span>
+<span class="line"><span style="color:#C678DD">        return</span><span style="color:#ABB2BF"> predictions</span></span>
+<span class="line"><span style="color:#ABB2BF">    </span></span>
+<span class="line"><span style="color:#C678DD">class</span><span style="color:#E5C07B"> CustomLinearRegression</span><span style="color:#ABB2BF">(</span><span style="color:#E5C07B">LinearRegressionModel</span><span style="color:#ABB2BF">):</span></span>
+<span class="line"><span style="color:#C678DD">    def</span><span style="color:#56B6C2"> __init__</span><span style="color:#ABB2BF">(</span><span style="color:#E5C07B;font-style:italic">self</span><span style="color:#ABB2BF">, </span><span style="color:#D19A66;font-style:italic">threshold</span><span style="color:#ABB2BF">):</span></span>
+<span class="line"><span style="color:#56B6C2">        super</span><span style="color:#ABB2BF">().</span><span style="color:#56B6C2">__init__</span><span style="color:#ABB2BF">()</span></span>
+<span class="line"><span style="color:#E5C07B">        self</span><span style="color:#ABB2BF">.threshold </span><span style="color:#56B6C2">=</span><span style="color:#ABB2BF"> threshold</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#C678DD">    def</span><span style="color:#61AFEF"> predict</span><span style="color:#ABB2BF">(</span><span style="color:#E5C07B;font-style:italic">self</span><span style="color:#ABB2BF">, </span><span style="color:#D19A66;font-style:italic">X</span><span style="color:#ABB2BF">):</span></span>
+<span class="line"><span style="color:#ABB2BF">        predictions </span><span style="color:#56B6C2">=</span><span style="color:#56B6C2"> super</span><span style="color:#ABB2BF">().</span><span style="color:#61AFEF">predict</span><span style="color:#ABB2BF">(X)</span></span>
+<span class="line"><span style="color:#ABB2BF">        predictions </span><span style="color:#56B6C2">=</span><span style="color:#ABB2BF"> np.</span><span style="color:#61AFEF">where</span><span style="color:#ABB2BF">(predictions </span><span style="color:#56B6C2">&gt;</span><span style="color:#E5C07B"> self</span><span style="color:#ABB2BF">.threshold, </span><span style="color:#E5C07B">self</span><span style="color:#ABB2BF">.threshold, predictions)</span></span>
+<span class="line"><span style="color:#C678DD">        return</span><span style="color:#ABB2BF"> predictions</span></span></code></pre>
+<p>We can see that derived class has all the behaviours and attributes of the base class.</p>
+<pre class="astro-code one-dark-pro" style="background-color:#282c34;color:#abb2bf; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0"><code><span class="line"><span style="color:#ABB2BF">X_train </span><span style="color:#56B6C2">=</span><span style="color:#ABB2BF"> np.</span><span style="color:#61AFEF">array</span><span style="color:#ABB2BF">([[</span><span style="color:#D19A66">1.0</span><span style="color:#ABB2BF">], [</span><span style="color:#D19A66">2.0</span><span style="color:#ABB2BF">], [</span><span style="color:#D19A66">3.0</span><span style="color:#ABB2BF">], [</span><span style="color:#D19A66">4.0</span><span style="color:#ABB2BF">], [</span><span style="color:#D19A66">5.0</span><span style="color:#ABB2BF">]]) </span></span>
+<span class="line"><span style="color:#ABB2BF">y_train </span><span style="color:#56B6C2">=</span><span style="color:#ABB2BF"> np.</span><span style="color:#61AFEF">array</span><span style="color:#ABB2BF">([</span><span style="color:#D19A66">2.0</span><span style="color:#ABB2BF">, </span><span style="color:#D19A66">4.0</span><span style="color:#ABB2BF">, </span><span style="color:#D19A66">6.0</span><span style="color:#ABB2BF">, </span><span style="color:#D19A66">8.0</span><span style="color:#ABB2BF">, </span><span style="color:#D19A66">10.0</span><span style="color:#ABB2BF">])</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#7F848E;font-style:italic"># Create an instance of the CustomLinearRegression </span></span>
+<span class="line"><span style="color:#ABB2BF">model </span><span style="color:#56B6C2">=</span><span style="color:#61AFEF"> CustomLinearRegression</span><span style="color:#ABB2BF">(</span><span style="color:#E06C75;font-style:italic">threshold</span><span style="color:#56B6C2">=</span><span style="color:#D19A66">8.0</span><span style="color:#ABB2BF">)  </span></span>
+<span class="line"><span style="color:#7F848E;font-style:italic"># Train the model </span></span>
+<span class="line"><span style="color:#ABB2BF">model.</span><span style="color:#61AFEF">train</span><span style="color:#ABB2BF">(X_train, y_train) </span></span>
+<span class="line"><span style="color:#7F848E;font-style:italic"># Get coefficients</span></span>
+<span class="line"><span style="color:#ABB2BF">model.</span><span style="color:#61AFEF">get_coefficients</span><span style="color:#ABB2BF">()</span></span></code></pre>
+<p>array([5.66213743e-15, 2.00000000e+00])</p>
+<pre class="astro-code one-dark-pro" style="background-color:#282c34;color:#abb2bf; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0"><code><span class="line"><span style="color:#ABB2BF">X_test </span><span style="color:#56B6C2">=</span><span style="color:#ABB2BF"> np.</span><span style="color:#61AFEF">array</span><span style="color:#ABB2BF">([[</span><span style="color:#D19A66">2.0</span><span style="color:#ABB2BF">], [</span><span style="color:#D19A66">3.0</span><span style="color:#ABB2BF">], [</span><span style="color:#D19A66">6.0</span><span style="color:#ABB2BF">]]) </span></span>
+<span class="line"><span style="color:#ABB2BF">model.</span><span style="color:#61AFEF">predict</span><span style="color:#ABB2BF">(X_test)</span></span></code></pre>
+<p>array([4., 6., 8.])</p>
+<p>We can see that we use the predict class but the threshold is applied. The third record ([6.0]) would have a value of 12.0, but the thresholding feature sets it to 8.0.</p>
+<p>##&nbsp;Polymorphism</p>
+<p>The term “polymorphism” has its roots in the Greek language, specifically in the Greek words “poly” (many) and “morph” (form / shape). This core principle refers to the ability of subclasses to have many different forms while having the same base class. Polymorphism can  be achieved with method overriding and method overloading. Just like your coffee machine which is a water processing machine, but it is used to make coffee and it is different from a kettle and a tea maker which are also water processing machines.</p>
+<div style="text-align:center">
+    <img src="../../assets/images/posts/oop_ml/polymorphism.webp" alt="iqred" width="500" loading="lazy" decoding="async">
+</div>
+<h3 id="method-overriding">Method Overriding</h3>
+<p>Method overriding refers to the way of changing the implementation of a method, defined by the base class, in the subclass while keeping the same method signature (name, parameters, return type)</p>
+<h3 id="method-overloading">Method Overloading</h3>
+<p>Method overloading refers to the ability of having many methods with the same name but different set of parameters.</p>
+<h3 id="pros-3">Pros</h3>
+<p>Simplified Code: Polymorphism simplifies code by allowing you to write general-purpose methods that operate on objects of a base class.</p>
+<p>Code Flexibility: Polymorphism allows for greater flexibility in code design. This promotes a cleaner and more modular code structure.</p>
+<h3 id="pitfalls-2">Pitfalls</h3>
+<p>Lack of Clarity: When dealing with polymorphism, it may not always be immediately clear which implementation of a method is being invoked.</p>
+<h3 id="example-3">Example</h3>
+<h4 id="overriding">Overriding</h4>
+<p>An example of overriding we showed before at the inheritance section, where we override the predict method.</p>
+<pre class="astro-code one-dark-pro" style="background-color:#282c34;color:#abb2bf; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0"><code><span class="line"><span style="color:#C678DD">def</span><span style="color:#61AFEF"> predict</span><span style="color:#ABB2BF">(</span><span style="color:#E5C07B;font-style:italic">self</span><span style="color:#ABB2BF">, </span><span style="color:#D19A66;font-style:italic">X</span><span style="color:#ABB2BF">):</span></span>
+<span class="line"><span style="color:#ABB2BF">        predictions </span><span style="color:#56B6C2">=</span><span style="color:#56B6C2"> super</span><span style="color:#ABB2BF">().</span><span style="color:#61AFEF">predict</span><span style="color:#ABB2BF">(X)</span></span>
+<span class="line"><span style="color:#ABB2BF">        predictions </span><span style="color:#56B6C2">=</span><span style="color:#ABB2BF"> np.</span><span style="color:#61AFEF">where</span><span style="color:#ABB2BF">(predictions </span><span style="color:#56B6C2">&gt;</span><span style="color:#E5C07B"> self</span><span style="color:#ABB2BF">.max_value, </span><span style="color:#E5C07B">self</span><span style="color:#ABB2BF">.max_value, predictions)</span></span>
+<span class="line"><span style="color:#C678DD">        return</span><span style="color:#ABB2BF"> predictions</span></span></code></pre>
+<p>In this scenario we use the prediction method from the parent class, but that is not necessary. We can override the method without any reference to the inherited implementation.</p>
+<h4 id="overloading">Overloading</h4>
+<p>We will illustrate overloading of the predict method. We will implement the same functionality as the overriding experiment, but using the overloading method.</p>
+<pre class="astro-code one-dark-pro" style="background-color:#282c34;color:#abb2bf; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0"><code><span class="line"><span style="color:#C678DD">class</span><span style="color:#E5C07B"> CustomLinearRegression</span><span style="color:#ABB2BF">(</span><span style="color:#E5C07B">LinearRegressionModel</span><span style="color:#ABB2BF">):</span></span>
+<span class="line"><span style="color:#C678DD">    def</span><span style="color:#56B6C2"> __init__</span><span style="color:#ABB2BF">(</span><span style="color:#E5C07B;font-style:italic">self</span><span style="color:#ABB2BF">):</span></span>
+<span class="line"><span style="color:#56B6C2">        super</span><span style="color:#ABB2BF">().</span><span style="color:#56B6C2">__init__</span><span style="color:#ABB2BF">()</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#C678DD">    def</span><span style="color:#61AFEF"> predict</span><span style="color:#ABB2BF">(</span><span style="color:#E5C07B;font-style:italic">self</span><span style="color:#ABB2BF">, </span><span style="color:#D19A66;font-style:italic">X</span><span style="color:#ABB2BF">, </span><span style="color:#D19A66;font-style:italic">threshold</span><span style="color:#ABB2BF">=</span><span style="color:#D19A66">None</span><span style="color:#ABB2BF">):</span></span>
+<span class="line"><span style="color:#ABB2BF">        </span></span>
+<span class="line"><span style="color:#ABB2BF">        predictions </span><span style="color:#56B6C2">=</span><span style="color:#56B6C2"> super</span><span style="color:#ABB2BF">().</span><span style="color:#61AFEF">predict</span><span style="color:#ABB2BF">(X)</span></span>
+<span class="line"><span style="color:#C678DD">        if</span><span style="color:#56B6C2"> isinstance</span><span style="color:#ABB2BF">(threshold, </span><span style="color:#56B6C2">float</span><span style="color:#ABB2BF">):</span></span>
+<span class="line"><span style="color:#ABB2BF">            predictions </span><span style="color:#56B6C2">=</span><span style="color:#ABB2BF"> np.</span><span style="color:#61AFEF">where</span><span style="color:#ABB2BF">(predictions </span><span style="color:#56B6C2">&gt;</span><span style="color:#ABB2BF"> threshold, threshold, predictions)</span></span>
+<span class="line"><span style="color:#C678DD">        return</span><span style="color:#ABB2BF"> predictions</span></span></code></pre>
+<p>Let’s train the CustomLinearRegression class.</p>
+<pre class="astro-code one-dark-pro" style="background-color:#282c34;color:#abb2bf; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0"><code><span class="line"><span style="color:#ABB2BF">X_train </span><span style="color:#56B6C2">=</span><span style="color:#ABB2BF"> np.</span><span style="color:#61AFEF">array</span><span style="color:#ABB2BF">([[</span><span style="color:#D19A66">1.0</span><span style="color:#ABB2BF">], [</span><span style="color:#D19A66">2.0</span><span style="color:#ABB2BF">], [</span><span style="color:#D19A66">3.0</span><span style="color:#ABB2BF">], [</span><span style="color:#D19A66">4.0</span><span style="color:#ABB2BF">], [</span><span style="color:#D19A66">5.0</span><span style="color:#ABB2BF">]]) </span></span>
+<span class="line"><span style="color:#ABB2BF">y_train </span><span style="color:#56B6C2">=</span><span style="color:#ABB2BF"> np.</span><span style="color:#61AFEF">array</span><span style="color:#ABB2BF">([</span><span style="color:#D19A66">2.0</span><span style="color:#ABB2BF">, </span><span style="color:#D19A66">4.0</span><span style="color:#ABB2BF">, </span><span style="color:#D19A66">6.0</span><span style="color:#ABB2BF">, </span><span style="color:#D19A66">8.0</span><span style="color:#ABB2BF">, </span><span style="color:#D19A66">10.0</span><span style="color:#ABB2BF">])</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#7F848E;font-style:italic"># Create an instance of the CustomLinearRegression </span></span>
+<span class="line"><span style="color:#ABB2BF">model </span><span style="color:#56B6C2">=</span><span style="color:#61AFEF"> CustomLinearRegression</span><span style="color:#ABB2BF">()  </span></span>
+<span class="line"><span style="color:#7F848E;font-style:italic"># Train the model </span></span>
+<span class="line"><span style="color:#ABB2BF">model.</span><span style="color:#61AFEF">train</span><span style="color:#ABB2BF">(X_train, y_train) </span></span>
+<span class="line"><span style="color:#7F848E;font-style:italic"># Get coefficients</span></span>
+<span class="line"><span style="color:#ABB2BF">model.</span><span style="color:#61AFEF">get_coefficients</span><span style="color:#ABB2BF">()</span></span></code></pre>
+<p>Let’s try to predict the output without any threshold</p>
+<pre class="astro-code one-dark-pro" style="background-color:#282c34;color:#abb2bf; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0"><code><span class="line"><span style="color:#ABB2BF">X_test </span><span style="color:#56B6C2">=</span><span style="color:#ABB2BF"> np.</span><span style="color:#61AFEF">array</span><span style="color:#ABB2BF">([[</span><span style="color:#D19A66">2.0</span><span style="color:#ABB2BF">], [</span><span style="color:#D19A66">3.0</span><span style="color:#ABB2BF">], [</span><span style="color:#D19A66">6.0</span><span style="color:#ABB2BF">]]) </span></span>
+<span class="line"><span style="color:#ABB2BF">model.</span><span style="color:#61AFEF">predict</span><span style="color:#ABB2BF">(X_test)</span></span></code></pre>
+<p>array([ 4.,  6., 12.])</p>
+<p>We see, that the prediction is as the expected one from the linear regression model.</p>
+<p>And now, let’s try to predict the output with the threshold:</p>
+<pre class="astro-code one-dark-pro" style="background-color:#282c34;color:#abb2bf; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0"><code><span class="line"><span style="color:#ABB2BF">model.</span><span style="color:#61AFEF">predict</span><span style="color:#ABB2BF">(X_test, </span><span style="color:#E06C75;font-style:italic">threshold</span><span style="color:#56B6C2">=</span><span style="color:#D19A66">8.0</span><span style="color:#ABB2BF">)</span></span></code></pre>
+<p>array([4., 6., 8.])</p>
+<p>We see that the prediction is capped by the upper bound threshold.</p>
+<p>For the given scenario, even though we can implement them with both methods it would be a better option to implement it with overloading.</p>
+<p>But why should you avoid overriding? There are two reasons (of which I can think of) that you should avoid it.</p>
+<ol>
+<li>
+<p>You eliminate the ability to predict without an upper bound threshold.</p>
+</li>
+<li>
+<p>You only construct (initialize) the object once. If the user needs to conduct many predictions with different thresholds, they don’t need to construct the class many times to change the threshold but they just change the value of the threshold at the prediction method.</p>
+</li>
+</ol>
+<p>It is important to know that python doesn’t support overloading like other strongly-typed languages do, and our example is a workaround of overloading.</p>
+<h2 id="additional-principles">Additional principles</h2>
+<p>Beyond the core principles there are some more principles in OOP that may not be used as often but they can be very useful if you have the right scenario.</p>
+<p>###&nbsp;Association</p>
+<p>Association is the relationship between one object’s functionality and another’s. Association of two objects is not the same thing as inheritance. Association signifies that one object utilizes the functionalities or methods of another object, rather than the hierarchical relationship seen in class inheritance. There are two types of association, composition and aggregation. But before we go through it, it could be beneficial to enumerate the differences between inheritance and association to clarify the concepts.</p>
+<p>####&nbsp;Differences</p>
+<ol>
+<li>
+<p>Association happens between two <strong>different</strong> objects, while inheritance happens between two similar objects.</p>
+</li>
+<li>
+<p>Association has a <strong>HAS-A</strong> relationship, while inheritance has a <strong>IS-A</strong> inheritance. For example, a coffee machine  HAS A water tank.</p>
+</li>
+</ol>
+<p>###&nbsp;Composition</p>
+<p>Composition is a type of Association of which the existence of an object (composite) is tightly bound to the existence of another object (component). For example, you cannot have a coffee machine (composite) without a water tank (component), in this scenario, there is a HAS-A relationship between the coffee machine and the water tank.</p>
+<h4 id="pros-4">Pros</h4>
+<ul>
+<li><strong>Encapsulation</strong>: It allows for encapsulation since the internal details of the composite object can be hidden from the outside world.</li>
+</ul>
+<h4 id="pitfalls-3">Pitfalls</h4>
+<ul>
+<li><strong>Rigidity</strong>: The strong relationship can make the system less flexible. It becomes harder to change the structure of the composite class.</li>
+</ul>
+<h4 id="example-4">Example</h4>
+<p>We will create a predictive analytics pipeline to illustrate how to use composition in the context of predictive analytics.</p>
+<p>We will first create a data processing class, which standardizes the data, then we will use the customized linear regression model to conduct the predictions.</p>
+<p>For scaling the data we will use the <a href="https://en.wikipedia.org/wiki/Standard_score">standard scaling</a>.</p>
+<pre class="astro-code one-dark-pro" style="background-color:#282c34;color:#abb2bf; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0"><code><span class="line"><span style="color:#C678DD">class</span><span style="color:#E5C07B"> StandardScaler</span><span style="color:#ABB2BF">:</span></span>
+<span class="line"><span style="color:#C678DD">    def</span><span style="color:#56B6C2"> __init__</span><span style="color:#ABB2BF">(</span><span style="color:#E5C07B;font-style:italic">self</span><span style="color:#ABB2BF">):</span></span>
+<span class="line"><span style="color:#E5C07B">        self</span><span style="color:#ABB2BF">.mean_ </span><span style="color:#56B6C2">=</span><span style="color:#D19A66"> None</span></span>
+<span class="line"><span style="color:#E5C07B">        self</span><span style="color:#ABB2BF">.std_ </span><span style="color:#56B6C2">=</span><span style="color:#D19A66"> None</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#C678DD">    def</span><span style="color:#61AFEF"> fit</span><span style="color:#ABB2BF">(</span><span style="color:#E5C07B;font-style:italic">self</span><span style="color:#ABB2BF">, </span><span style="color:#D19A66;font-style:italic">X</span><span style="color:#ABB2BF">):</span></span>
+<span class="line"><span style="color:#E5C07B">        self</span><span style="color:#ABB2BF">.mean_ </span><span style="color:#56B6C2">=</span><span style="color:#ABB2BF"> np.</span><span style="color:#61AFEF">mean</span><span style="color:#ABB2BF">(X)</span></span>
+<span class="line"><span style="color:#E5C07B">        self</span><span style="color:#ABB2BF">.std_ </span><span style="color:#56B6C2">=</span><span style="color:#ABB2BF"> np.</span><span style="color:#61AFEF">std</span><span style="color:#ABB2BF">(X)</span></span>
+<span class="line"><span style="color:#C678DD">        return</span><span style="color:#E5C07B"> self</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#C678DD">    def</span><span style="color:#61AFEF"> transform</span><span style="color:#ABB2BF">(</span><span style="color:#E5C07B;font-style:italic">self</span><span style="color:#ABB2BF">, </span><span style="color:#D19A66;font-style:italic">X</span><span style="color:#ABB2BF">):</span></span>
+<span class="line"><span style="color:#C678DD">        if</span><span style="color:#E5C07B"> self</span><span style="color:#ABB2BF">.mean_ </span><span style="color:#C678DD">is</span><span style="color:#D19A66"> None</span><span style="color:#C678DD"> or</span><span style="color:#E5C07B"> self</span><span style="color:#ABB2BF">.std_ </span><span style="color:#C678DD">is</span><span style="color:#D19A66"> None</span><span style="color:#ABB2BF">:</span></span>
+<span class="line"><span style="color:#C678DD">            raise</span><span style="color:#ABB2BF"> ValueError(</span><span style="color:#98C379">"Scaler not fitted. Call fit() before transforming data."</span><span style="color:#ABB2BF">)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#ABB2BF">        X_scaled </span><span style="color:#56B6C2">=</span><span style="color:#ABB2BF"> (X </span><span style="color:#56B6C2">-</span><span style="color:#E5C07B"> self</span><span style="color:#ABB2BF">.mean_) </span><span style="color:#56B6C2">/</span><span style="color:#E5C07B"> self</span><span style="color:#ABB2BF">.std_</span></span>
+<span class="line"><span style="color:#C678DD">        return</span><span style="color:#ABB2BF"> X_scaled</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#C678DD">    def</span><span style="color:#61AFEF"> fit_transform</span><span style="color:#ABB2BF">(</span><span style="color:#E5C07B;font-style:italic">self</span><span style="color:#ABB2BF">, </span><span style="color:#D19A66;font-style:italic">X</span><span style="color:#ABB2BF">):</span></span>
+<span class="line"><span style="color:#E5C07B">        self</span><span style="color:#ABB2BF">.</span><span style="color:#61AFEF">fit</span><span style="color:#ABB2BF">(X)</span></span>
+<span class="line"><span style="color:#C678DD">        return</span><span style="color:#E5C07B"> self</span><span style="color:#ABB2BF">.</span><span style="color:#61AFEF">transform</span><span style="color:#ABB2BF">(X)</span></span></code></pre>
+<p>Then, we will create the predictive pipeline. The composite class is <em>PredictivePipeline</em> and the component classes are <em>StandardScaler</em> and <em>CustomLinearRegression</em>.</p>
+<pre class="astro-code one-dark-pro" style="background-color:#282c34;color:#abb2bf; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0"><code><span class="line"><span style="color:#C678DD">class</span><span style="color:#E5C07B"> PredictivePipeline</span><span style="color:#ABB2BF">(</span><span style="color:#E5C07B">StandardScaler</span><span style="color:#ABB2BF">, </span><span style="color:#E5C07B">CustomLinearRegression</span><span style="color:#ABB2BF">):</span></span>
+<span class="line"><span style="color:#C678DD">    def</span><span style="color:#56B6C2"> __init__</span><span style="color:#ABB2BF">(</span><span style="color:#E5C07B;font-style:italic">self</span><span style="color:#ABB2BF">):</span></span>
+<span class="line"><span style="color:#56B6C2">        super</span><span style="color:#ABB2BF">().</span><span style="color:#56B6C2">__init__</span><span style="color:#ABB2BF">()</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#C678DD">    def</span><span style="color:#61AFEF"> train</span><span style="color:#ABB2BF">(</span><span style="color:#E5C07B;font-style:italic">self</span><span style="color:#ABB2BF">, </span><span style="color:#D19A66;font-style:italic">X</span><span style="color:#ABB2BF">, </span><span style="color:#D19A66;font-style:italic">y</span><span style="color:#ABB2BF">):</span></span>
+<span class="line"><span style="color:#ABB2BF">        X_transformed </span><span style="color:#56B6C2">=</span><span style="color:#E5C07B"> self</span><span style="color:#ABB2BF">.</span><span style="color:#61AFEF">fit_transform</span><span style="color:#ABB2BF">(X)</span></span>
+<span class="line"><span style="color:#56B6C2">        super</span><span style="color:#ABB2BF">().</span><span style="color:#61AFEF">train</span><span style="color:#ABB2BF">(X_transformed, y)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#C678DD">    def</span><span style="color:#61AFEF"> predict</span><span style="color:#ABB2BF">(</span><span style="color:#E5C07B;font-style:italic">self</span><span style="color:#ABB2BF">, </span><span style="color:#D19A66;font-style:italic">X</span><span style="color:#ABB2BF">, </span><span style="color:#D19A66;font-style:italic">threshold</span><span style="color:#ABB2BF">=</span><span style="color:#D19A66">None</span><span style="color:#ABB2BF">):</span></span>
+<span class="line"><span style="color:#ABB2BF">        X_transformed </span><span style="color:#56B6C2">=</span><span style="color:#E5C07B"> self</span><span style="color:#ABB2BF">.</span><span style="color:#61AFEF">transform</span><span style="color:#ABB2BF">(X)</span></span>
+<span class="line"><span style="color:#C678DD">        return</span><span style="color:#56B6C2"> super</span><span style="color:#ABB2BF">().</span><span style="color:#61AFEF">predict</span><span style="color:#ABB2BF">(X_transformed, </span><span style="color:#E06C75;font-style:italic">threshold</span><span style="color:#56B6C2">=</span><span style="color:#ABB2BF">threshold)</span></span></code></pre>
+<p>Below you can see that <em>PredictivePipeline</em> has the behaviours of both <em>StandardScaler</em> and <em>CustomLinearRegression</em>.</p>
+<pre class="astro-code one-dark-pro" style="background-color:#282c34;color:#abb2bf; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0"><code><span class="line"><span style="color:#ABB2BF">X_train </span><span style="color:#56B6C2">=</span><span style="color:#ABB2BF"> np.</span><span style="color:#61AFEF">array</span><span style="color:#ABB2BF">([[</span><span style="color:#D19A66">1.0</span><span style="color:#ABB2BF">], [</span><span style="color:#D19A66">2.0</span><span style="color:#ABB2BF">], [</span><span style="color:#D19A66">3.0</span><span style="color:#ABB2BF">], [</span><span style="color:#D19A66">4.0</span><span style="color:#ABB2BF">], [</span><span style="color:#D19A66">5.0</span><span style="color:#ABB2BF">]]) </span></span>
+<span class="line"><span style="color:#ABB2BF">y_train </span><span style="color:#56B6C2">=</span><span style="color:#ABB2BF"> np.</span><span style="color:#61AFEF">array</span><span style="color:#ABB2BF">([</span><span style="color:#D19A66">2.0</span><span style="color:#ABB2BF">, </span><span style="color:#D19A66">4.0</span><span style="color:#ABB2BF">, </span><span style="color:#D19A66">6.0</span><span style="color:#ABB2BF">, </span><span style="color:#D19A66">8.0</span><span style="color:#ABB2BF">, </span><span style="color:#D19A66">10.0</span><span style="color:#ABB2BF">])</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#7F848E;font-style:italic"># Create an instance of the CustomLinearRegression </span></span>
+<span class="line"><span style="color:#ABB2BF">pipeline </span><span style="color:#56B6C2">=</span><span style="color:#61AFEF"> PredictivePipeline</span><span style="color:#ABB2BF">()  </span></span>
+<span class="line"><span style="color:#7F848E;font-style:italic"># Train the model </span></span>
+<span class="line"><span style="color:#ABB2BF">pipeline.</span><span style="color:#61AFEF">train</span><span style="color:#ABB2BF">(X_train, y_train) </span></span>
+<span class="line"><span style="color:#ABB2BF">pipeline.</span><span style="color:#61AFEF">get_coefficients</span><span style="color:#ABB2BF">()</span></span></code></pre>
+<p>array([6.        , 2.82842712])</p>
+<pre class="astro-code one-dark-pro" style="background-color:#282c34;color:#abb2bf; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0"><code><span class="line"><span style="color:#ABB2BF">X_test </span><span style="color:#56B6C2">=</span><span style="color:#ABB2BF"> np.</span><span style="color:#61AFEF">array</span><span style="color:#ABB2BF">([[</span><span style="color:#D19A66">2.0</span><span style="color:#ABB2BF">], [</span><span style="color:#D19A66">3.0</span><span style="color:#ABB2BF">], [</span><span style="color:#D19A66">6.0</span><span style="color:#ABB2BF">]]) </span></span>
+<span class="line"><span style="color:#ABB2BF">pipeline.</span><span style="color:#61AFEF">predict</span><span style="color:#ABB2BF">(X_test)</span></span></code></pre>
+<p>array([ 4.,  6., 12.])</p>
+<pre class="astro-code one-dark-pro" style="background-color:#282c34;color:#abb2bf; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0"><code><span class="line"><span style="color:#ABB2BF">pipeline.</span><span style="color:#61AFEF">predict</span><span style="color:#ABB2BF">(X_test, </span><span style="color:#E06C75;font-style:italic">threshold</span><span style="color:#56B6C2">=</span><span style="color:#D19A66">8.0</span><span style="color:#ABB2BF">)</span></span></code></pre>
+<p>array([4., 6., 8.])</p>
+<h3 id="aggregation">Aggregation</h3>
+<p>Aggregation is a type of Association of which the existence of an object (aggregator) is not tightly bound to the existence of another object (aggregated). For example, you can have a coffee machine without water in the water tank, again the relationship between coffee machine and water would be HAS-A relationship.</p>
+<h4 id="pros-5">Pros</h4>
+<ul>
+<li>
+<p><strong>Flexibility</strong>: Aggregation is more flexible to composition. Even though it does imply relationship, the objects can exist independently.</p>
+</li>
+<li>
+<p><strong>Reusability</strong>: Classes involved in aggregation can be used for different context.</p>
+</li>
+</ul>
+<h4 id="pitfalls-4">Pitfalls</h4>
+<ul>
+<li><strong>Dependencies</strong>: Even though it is more flexible than composition, aggregated classes can have an impact on the aggregator so code amendments could happen if aggregated classes change.</li>
+</ul>
+<h4 id="example-5">Example</h4>
+<p>We will extend the example we used for composition. Aggregation is more loose than composition, so we can have some agregatted classes which are not linked to the existence of the object. For our example of PredictivePipeline, we will add a <a href="https://docs.python.org/3/library/dataclasses.html">dataclass</a> for the data we have used to train and evaluate the model.</p>
+<pre class="astro-code one-dark-pro" style="background-color:#282c34;color:#abb2bf; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0"><code><span class="line"><span style="color:#C678DD">from</span><span style="color:#ABB2BF"> dataclasses </span><span style="color:#C678DD">import</span><span style="color:#ABB2BF"> dataclass</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#61AFEF">@dataclass</span></span>
+<span class="line"><span style="color:#C678DD">class</span><span style="color:#E5C07B"> DataLoader</span><span style="color:#ABB2BF">:</span></span>
+<span class="line"><span style="color:#ABB2BF">    x_train </span><span style="color:#56B6C2">=</span><span style="color:#ABB2BF"> np.</span><span style="color:#61AFEF">array</span><span style="color:#ABB2BF">([[</span><span style="color:#D19A66">1.0</span><span style="color:#ABB2BF">], [</span><span style="color:#D19A66">2.0</span><span style="color:#ABB2BF">], [</span><span style="color:#D19A66">3.0</span><span style="color:#ABB2BF">], [</span><span style="color:#D19A66">4.0</span><span style="color:#ABB2BF">], [</span><span style="color:#D19A66">5.0</span><span style="color:#ABB2BF">]])</span></span>
+<span class="line"><span style="color:#ABB2BF">    y_train </span><span style="color:#56B6C2">=</span><span style="color:#ABB2BF"> np.</span><span style="color:#61AFEF">array</span><span style="color:#ABB2BF">([</span><span style="color:#D19A66">2.0</span><span style="color:#ABB2BF">, </span><span style="color:#D19A66">4.0</span><span style="color:#ABB2BF">, </span><span style="color:#D19A66">6.0</span><span style="color:#ABB2BF">, </span><span style="color:#D19A66">8.0</span><span style="color:#ABB2BF">, </span><span style="color:#D19A66">10.0</span><span style="color:#ABB2BF">])</span></span>
+<span class="line"><span style="color:#ABB2BF">    x_test </span><span style="color:#56B6C2">=</span><span style="color:#ABB2BF"> np.</span><span style="color:#61AFEF">array</span><span style="color:#ABB2BF">([[</span><span style="color:#D19A66">2.0</span><span style="color:#ABB2BF">], [</span><span style="color:#D19A66">3.0</span><span style="color:#ABB2BF">], [</span><span style="color:#D19A66">6.0</span><span style="color:#ABB2BF">]])</span></span>
+<span class="line"><span style="color:#ABB2BF">    y_test </span><span style="color:#56B6C2">=</span><span style="color:#ABB2BF"> np.</span><span style="color:#61AFEF">array</span><span style="color:#ABB2BF">([</span><span style="color:#D19A66">4</span><span style="color:#ABB2BF">., </span><span style="color:#D19A66">6</span><span style="color:#ABB2BF">., </span><span style="color:#D19A66">10</span><span style="color:#ABB2BF">.])</span></span></code></pre>
+<p>We need to do some amendments to the PredictivePipeline class. First, we will add the data attribute where we store the training and test data. Then we will create an evaluate method to measure the performance of the linear regression using <a href="https://en.wikipedia.org/wiki/Mean_squared_error">MSE</a>. Finally, we will remove the X, and y arguments from the train method since the training data are part of the class.</p>
+<pre class="astro-code one-dark-pro" style="background-color:#282c34;color:#abb2bf; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0"><code><span class="line"><span style="color:#C678DD">class</span><span style="color:#E5C07B"> PredictiveModel</span><span style="color:#ABB2BF">(</span><span style="color:#E5C07B">StandardScaler</span><span style="color:#ABB2BF">, </span><span style="color:#E5C07B">CustomLinearRegression</span><span style="color:#ABB2BF">):</span></span>
+<span class="line"><span style="color:#C678DD">    def</span><span style="color:#56B6C2"> __init__</span><span style="color:#ABB2BF">(</span><span style="color:#E5C07B;font-style:italic">self</span><span style="color:#ABB2BF">, </span><span style="color:#D19A66;font-style:italic">data</span><span style="color:#ABB2BF">=</span><span style="color:#D19A66">None</span><span style="color:#ABB2BF">):</span></span>
+<span class="line"><span style="color:#56B6C2">        super</span><span style="color:#ABB2BF">().</span><span style="color:#56B6C2">__init__</span><span style="color:#ABB2BF">()</span></span>
+<span class="line"><span style="color:#E5C07B">        self</span><span style="color:#ABB2BF">.data </span><span style="color:#56B6C2">=</span><span style="color:#ABB2BF"> data</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#C678DD">    def</span><span style="color:#61AFEF"> train</span><span style="color:#ABB2BF">(</span><span style="color:#E5C07B;font-style:italic">self</span><span style="color:#ABB2BF">):</span></span>
+<span class="line"><span style="color:#C678DD">        if</span><span style="color:#E5C07B"> self</span><span style="color:#ABB2BF">.data </span><span style="color:#C678DD">is</span><span style="color:#D19A66"> None</span><span style="color:#ABB2BF">:</span></span>
+<span class="line"><span style="color:#C678DD">            raise</span><span style="color:#ABB2BF"> ValueError(</span><span style="color:#98C379">"You don't have data, you cannot train a model without data."</span><span style="color:#ABB2BF">)</span></span>
+<span class="line"><span style="color:#ABB2BF">        X_transformed </span><span style="color:#56B6C2">=</span><span style="color:#E5C07B"> self</span><span style="color:#ABB2BF">.</span><span style="color:#61AFEF">fit_transform</span><span style="color:#ABB2BF">(</span><span style="color:#E5C07B">self</span><span style="color:#ABB2BF">.data.x_train)</span></span>
+<span class="line"><span style="color:#56B6C2">        super</span><span style="color:#ABB2BF">().</span><span style="color:#61AFEF">train</span><span style="color:#ABB2BF">(X_transformed, </span><span style="color:#E5C07B">self</span><span style="color:#ABB2BF">.data.y_train)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#C678DD">    def</span><span style="color:#61AFEF"> predict</span><span style="color:#ABB2BF">(</span><span style="color:#E5C07B;font-style:italic">self</span><span style="color:#ABB2BF">, </span><span style="color:#D19A66;font-style:italic">X</span><span style="color:#ABB2BF">, </span><span style="color:#D19A66;font-style:italic">threshold</span><span style="color:#ABB2BF">=</span><span style="color:#D19A66">None</span><span style="color:#ABB2BF">):</span></span>
+<span class="line"><span style="color:#C678DD">        if</span><span style="color:#E5C07B"> self</span><span style="color:#ABB2BF">.data </span><span style="color:#C678DD">is</span><span style="color:#D19A66"> None</span><span style="color:#ABB2BF">:</span></span>
+<span class="line"><span style="color:#C678DD">            raise</span><span style="color:#ABB2BF"> ValueError(</span><span style="color:#98C379">"You don't have data, you cannot train a model without data."</span><span style="color:#ABB2BF">)</span></span>
+<span class="line"><span style="color:#ABB2BF">        X_transformed </span><span style="color:#56B6C2">=</span><span style="color:#E5C07B"> self</span><span style="color:#ABB2BF">.</span><span style="color:#61AFEF">transform</span><span style="color:#ABB2BF">(X)</span></span>
+<span class="line"><span style="color:#C678DD">        return</span><span style="color:#56B6C2"> super</span><span style="color:#ABB2BF">().</span><span style="color:#61AFEF">predict</span><span style="color:#ABB2BF">(X_transformed, </span><span style="color:#E06C75;font-style:italic">threshold</span><span style="color:#56B6C2">=</span><span style="color:#ABB2BF">threshold)</span></span>
+<span class="line"><span style="color:#ABB2BF">    </span></span>
+<span class="line"><span style="color:#C678DD">    def</span><span style="color:#61AFEF"> evaluate</span><span style="color:#ABB2BF">(</span><span style="color:#E5C07B;font-style:italic">self</span><span style="color:#ABB2BF">, </span><span style="color:#D19A66;font-style:italic">threshold</span><span style="color:#ABB2BF">=</span><span style="color:#D19A66">None</span><span style="color:#ABB2BF">):</span></span>
+<span class="line"><span style="color:#ABB2BF">        </span></span>
+<span class="line"><span style="color:#ABB2BF">        y_pred </span><span style="color:#56B6C2">=</span><span style="color:#E5C07B"> self</span><span style="color:#ABB2BF">.</span><span style="color:#61AFEF">predict</span><span style="color:#ABB2BF">(</span><span style="color:#E5C07B">self</span><span style="color:#ABB2BF">.data.x_test, threshold)</span></span>
+<span class="line"><span style="color:#ABB2BF">        mse </span><span style="color:#56B6C2">=</span><span style="color:#ABB2BF"> (((</span><span style="color:#E5C07B">self</span><span style="color:#ABB2BF">.data.y_test</span><span style="color:#56B6C2">-</span><span style="color:#ABB2BF">y_pred)</span><span style="color:#56B6C2">**</span><span style="color:#D19A66">2</span><span style="color:#ABB2BF">).</span><span style="color:#61AFEF">sum</span><span style="color:#ABB2BF">())</span><span style="color:#56B6C2">/len</span><span style="color:#ABB2BF">(</span><span style="color:#E5C07B">self</span><span style="color:#ABB2BF">.data.y_test)</span></span>
+<span class="line"><span style="color:#C678DD">        return</span><span style="color:#ABB2BF"> mse</span></span></code></pre>
+<p>Let’s train the new pipeline.</p>
+<pre class="astro-code one-dark-pro" style="background-color:#282c34;color:#abb2bf; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0"><code><span class="line"><span style="color:#ABB2BF">model </span><span style="color:#56B6C2">=</span><span style="color:#61AFEF"> PredictiveModel</span><span style="color:#ABB2BF">(</span><span style="color:#E06C75;font-style:italic">data</span><span style="color:#56B6C2">=</span><span style="color:#61AFEF">DataLoader</span><span style="color:#ABB2BF">())  </span></span>
+<span class="line"><span style="color:#ABB2BF">model.</span><span style="color:#61AFEF">train</span><span style="color:#ABB2BF">()</span></span></code></pre>
+<p>Now we can evaluate the model, not using a threshold:</p>
+<pre class="astro-code one-dark-pro" style="background-color:#282c34;color:#abb2bf; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0"><code><span class="line"><span style="color:#ABB2BF">model.</span><span style="color:#61AFEF">evaluate</span><span style="color:#ABB2BF">()</span></span></code></pre>
+<p>1.3333333333333333</p>
+<p>Now let’s apply the threshold to see if we can perform better.</p>
+<pre class="astro-code one-dark-pro" style="background-color:#282c34;color:#abb2bf; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0"><code><span class="line"><span style="color:#ABB2BF">model.</span><span style="color:#61AFEF">evaluate</span><span style="color:#ABB2BF">(</span><span style="color:#E06C75;font-style:italic">threshold</span><span style="color:#56B6C2">=</span><span style="color:#D19A66">10.0</span><span style="color:#ABB2BF">)</span></span></code></pre>
+<p>6.573840876841765e-32</p>
+<p>Looks like the model performs better (as if it was planned).</p>
+<p>Note that we haven’t linked the predict method to the training data, because we usually run inference on different serve sets.</p>
+<pre class="astro-code one-dark-pro" style="background-color:#282c34;color:#abb2bf; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0"><code><span class="line"><span style="color:#ABB2BF">model.</span><span style="color:#61AFEF">predict</span><span style="color:#ABB2BF">(model.data.x_test)</span></span></code></pre>
+<p>array([ 4.,  6., 12.])</p>
+<p>And in case we want to apply a threshold (since the model performs better with a threshold of 10.0)</p>
+<pre class="astro-code one-dark-pro" style="background-color:#282c34;color:#abb2bf; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0"><code><span class="line"><span style="color:#ABB2BF">model.</span><span style="color:#61AFEF">predict</span><span style="color:#ABB2BF">(model.data.x_test, </span><span style="color:#D19A66">10.0</span><span style="color:#ABB2BF">)</span></span></code></pre>
+<p>array([ 4.,  6., 10.])</p>
+<h1 id="conclusion">Conclusion</h1>
+<p>Object oriented programming provides a robust framework to structure predictive analytics projects offering benefits like code reusability, modularity, maintainability and organization. Class-based encapsulation fosters seamless collaboration among teams by abstracting component mechanics. Team members engage solely with the expected inputs and outputs of utilized components, relieving them from needing intricate knowledge of internal workings. For example, if the data engineering team collaborates with the data science team the data science doesn’t need how the <a href="https://en.wikipedia.org/wiki/Extract,_transform,_load">ETL</a> works but they know it loads the data from the various data sources.</p>
+<p>However, while OOP offers multiple advantages it is easy to fall into pitfalls which would create technical debt in your project. If you create complex hierarchies, it would make the project difficult to understand and maintain. Also, creating tight couplings between classes it can make it very difficult to write more features on top of the current project.</p>
+<p>You should be very critical when you design the code using OOP principles, being judicious is key. Aim for a clear and intuitive class structure that encapsulates responsibilities, promotes code reuse, and maintains flexibility. Making a <a href="https://en.wikipedia.org/wiki/Unified_Modeling_Language">UML</a> diagram can help you striking the right balance between code simplicity and code flexibility. Finally SOLID principles can really help you apply OOP the right way.</p> </article> <ul class="my-8 astro-rynkmgph"> <li class="inline-block my-1 underline-offset-4 astro-blwjyjpt"> <a href="/tags/machine-learning/" class="text-sm pr-2 group astro-blwjyjpt"> <svg xmlns="http://www.w3.org/2000/svg" class=" scale-75 astro-blwjyjpt"><path d="M16.018 3.815 15.232 8h-4.966l.716-3.815-1.964-.37L8.232 8H4v2h3.857l-.751 4H3v2h3.731l-.714 3.805 1.965.369L8.766 16h4.966l-.714 3.805 1.965.369.783-4.174H20v-2h-3.859l.751-4H21V8h-3.733l.716-3.815-1.965-.37zM14.106 14H9.141l.751-4h4.966l-.752 4z" class="astro-blwjyjpt"></path> </svg>
+&nbsp;<span class="astro-blwjyjpt">machine-learning</span> </a> </li> <li class="inline-block my-1 underline-offset-4 astro-blwjyjpt"> <a href="/tags/software-engineering/" class="text-sm pr-2 group astro-blwjyjpt"> <svg xmlns="http://www.w3.org/2000/svg" class=" scale-75 astro-blwjyjpt"><path d="M16.018 3.815 15.232 8h-4.966l.716-3.815-1.964-.37L8.232 8H4v2h3.857l-.751 4H3v2h3.731l-.714 3.805 1.965.369L8.766 16h4.966l-.714 3.805 1.965.369.783-4.174H20v-2h-3.859l.751-4H21V8h-3.733l.716-3.815-1.965-.37zM14.106 14H9.141l.751-4h4.966l-.752 4z" class="astro-blwjyjpt"></path> </svg>
+&nbsp;<span class="astro-blwjyjpt">software-engineering</span> </a> </li> <li class="inline-block my-1 underline-offset-4 astro-blwjyjpt"> <a href="/tags/python/" class="text-sm pr-2 group astro-blwjyjpt"> <svg xmlns="http://www.w3.org/2000/svg" class=" scale-75 astro-blwjyjpt"><path d="M16.018 3.815 15.232 8h-4.966l.716-3.815-1.964-.37L8.232 8H4v2h3.857l-.751 4H3v2h3.731l-.714 3.805 1.965.369L8.766 16h4.966l-.714 3.805 1.965.369.783-4.174H20v-2h-3.859l.751-4H21V8h-3.733l.716-3.815-1.965-.37zM14.106 14H9.141l.751-4h4.966l-.752 4z" class="astro-blwjyjpt"></path> </svg>
+&nbsp;<span class="astro-blwjyjpt">python</span> </a> </li>  </ul> <div class="flex flex-col-reverse items-center justify-between gap-6 sm:flex-row-reverse sm:items-end sm:gap-4 astro-rynkmgph"> <button id="back-to-top" class="focus-outline whitespace-nowrap py-1 hover:opacity-75 astro-rynkmgph"> <svg xmlns="http://www.w3.org/2000/svg" class="rotate-90 astro-rynkmgph"> <path d="M13.293 6.293 7.586 12l5.707 5.707 1.414-1.414L10.414 12l4.293-4.293z" class="astro-rynkmgph"></path> </svg> <span class="astro-rynkmgph">Back to Top</span> </button> </div> </main> <footer class="mt-auto astro-sz7xmlte"> <div class="mx-auto px-0"> <hr class="border-skin-line" aria-hidden="true"> </div> <div class="footer-wrapper astro-sz7xmlte"> <div class="social-icons flex astro-upu6fzxr"> <a href="https://buy.stripe.com/28obMAdue2or07udQR" class="group hover:text-skin-accent link-button astro-upu6fzxr" aria-label="Support Vasileios Tsakalos via Stripe (monthly subscription)" title="Support Vasileios Tsakalos via Stripe (monthly subscription)" target="_blank"> <svg xmlns="http://www.w3.org/2000/svg" class="icon-tabler stroke-linecap=" round"="" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M11.453 8.056c0 -.623 .518 -.979 1.442 -.979c1.69 0 3.41 .343 4.605 .923l.5 -4c-.948 -.449 -2.82 -1 -5.5 -1c-1.895 0 -3.373 .087 -4.5 1c-1.172 .956 -2 2.33 -2 4c0 3.03 1.958 4.906 5 6c1.961 .69 3 .743 3 1.5c0 .735 -.851 1.5 -2 1.5c-1.423 0 -3.963 -.609 -5.5 -1.5l-.5 4c1.321 .734 3.474 1.5 6 1.5c2 0 3.957 -.468 5.084 -1.36c1.263 -.979 1.916 -2.268 1.916 -4.14c0 -3.096 -1.915 -4.547 -5 -5.637c-1.646 -.605 -2.544 -1.07 -2.544 -1.807z"></path></svg> <span class="sr-only astro-upu6fzxr">Support Vasileios Tsakalos via Stripe (monthly subscription)</span> </a><a href="https://donate.stripe.com/9AQcQE61M6EHcUg9AA" class="group hover:text-skin-accent link-button astro-upu6fzxr" aria-label="Support Vasileios Tsakalos via Stripe (one-time donation)" title="Support Vasileios Tsakalos via Stripe (one-time donation)" target="_blank"> <svg xmlns="http://www.w3.org/2000/svg" class="icon-tabler stroke-linecap=" round"="" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0"></path><path d="M14.8 9a2 2 0 0 0 -1.8 -1h-2a2 2 0 1 0 0 4h2a2 2 0 1 1 0 4h-2a2 2 0 0 1 -1.8 -1"></path><path d="M12 7v10"></path></svg> <span class="sr-only astro-upu6fzxr">Support Vasileios Tsakalos via Stripe (one-time donation)</span> </a><a href="https://paypal.me/gpiskas" class="group hover:text-skin-accent link-button astro-upu6fzxr" aria-label="Support Vasileios Tsakalos via PayPal (one-time donation)" title="Support Vasileios Tsakalos via PayPal (one-time donation)" target="_blank"> <svg xmlns="http://www.w3.org/2000/svg" class="icon-tabler" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M10 13l2.5 0c2.5 0 5 -2.5 5 -5c0 -3 -1.9 -5 -5 -5h-5.5c-.5 0 -1 .5 -1 1l-2 14c0 .5 .5 1 1 1h2.8l1.2 -5c.1 -.6 .4 -1 1 -1zm7.5 -5.8c1.7 1 2.5 2.8 2.5 4.8c0 2.5 -2.5 4.5 -5 4.5h-2.6l-.6 3.6a1 1 0 0 1 -1 .8l-2.7 0a.5 .5 0 0 1 -.5 -.6l.2 -1.4"></path></svg> <span class="sr-only astro-upu6fzxr">Support Vasileios Tsakalos via PayPal (one-time donation)</span> </a><a href="https://ko-fi.com/gpiskas" class="group hover:text-skin-accent link-button astro-upu6fzxr" aria-label="Support Vasileios Tsakalos via Ko-Fi" title="Support Vasileios Tsakalos via Ko-Fi" target="_blank"> <svg xmlns="http://www.w3.org/2000/svg" class="icon-tabler" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M3 14c.83 .642 2.077 1.017 3.5 1c1.423 .017 2.67 -.358 3.5 -1c.83 -.642 2.077 -1.017 3.5 -1c1.423 -.017 2.67 .358 3.5 1"></path><path d="M8 3a2.4 2.4 0 0 0 -1 2a2.4 2.4 0 0 0 1 2"></path><path d="M12 3a2.4 2.4 0 0 0 -1 2a2.4 2.4 0 0 0 1 2"></path><path d="M3 10h14v5a6 6 0 0 1 -6 6h-2a6 6 0 0 1 -6 -6v-5z"></path><path d="M16.746 16.726a3 3 0 1 0 .252 -5.555"></path></svg> <span class="sr-only astro-upu6fzxr">Support Vasileios Tsakalos via Ko-Fi</span> </a><a href="https://www.linkedin.com/in/vasileiostsakalos" class="group hover:text-skin-accent link-button astro-upu6fzxr" aria-label="Vasileios Tsakalos on LinkedIn" title="Vasileios Tsakalos on LinkedIn" target="_blank"> <svg xmlns="http://www.w3.org/2000/svg" class="icon-tabler" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M4 4m0 2a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2z"></path><path d="M8 11l0 5"></path><path d="M8 8l0 .01"></path><path d="M12 16l0 -5"></path><path d="M16 16v-3a2 2 0 0 0 -4 0"></path></svg> <span class="sr-only astro-upu6fzxr">Vasileios Tsakalos on LinkedIn</span> </a><a href="https://github.com/sponsors/VasTsak" class="group hover:text-skin-accent link-button astro-upu6fzxr" aria-label="Vasileios Tsakalos on GitHub" title="Vasileios Tsakalos on GitHub" target="_blank"> <svg xmlns="http://www.w3.org/2000/svg" class="icon-tabler" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5"></path></svg> <span class="sr-only astro-upu6fzxr">Vasileios Tsakalos on GitHub</span> </a><a href="mailto:vtsakalos@proton.me" class="group hover:text-skin-accent link-button astro-upu6fzxr" aria-label="Send an email to Vasileios Tsakalos" title="Send an email to Vasileios Tsakalos" target="_blank"> <svg xmlns="http://www.w3.org/2000/svg" class="icon-tabler" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M13 19h-8a2 2 0 0 1 -2 -2v-10a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v6"></path><path d="M3 7l9 6l9 -6"></path><path d="M16 22l5 -5"></path><path d="M21 21.5v-4.5h-4.5"></path></svg> <span class="sr-only astro-upu6fzxr">Send an email to Vasileios Tsakalos</span> </a> </div>  <div class="copyright-wrapper astro-sz7xmlte"> <span class="astro-sz7xmlte">Vasileios Tsakalos © 2024</span> <span class="separator astro-sz7xmlte">&nbsp;|&nbsp;</span> <span class="highlight astro-sz7xmlte">Imagine anything, can create the impossible.</span> </div> </div> </footer>     <script>
+  /** Attaches links to headings in the document,
+   *  allowing sharing of sections easily */
+  function addHeadingLinks() {
+    let headings = Array.from(document.querySelectorAll("h2, h3, h4, h5, h6"));
+    for (let heading of headings) {
+      heading.classList.add("group");
+      let link = document.createElement("a");
+      link.innerText = "#";
+      link.className = "heading-link hidden group-hover:inline-block ml-2";
+      link.href = "#" + heading.id;
+      link.ariaHidden = "true";
+      heading.appendChild(link);
+    }
+  }
+  addHeadingLinks();
+
+  /** Attaches copy buttons to code blocks in the document,
+   * allowing users to copy code easily. */
+  function attachCopyButtons() {
+    let copyButtonLabel = "Copy";
+    let codeBlocks = Array.from(document.querySelectorAll("pre"));
+
+    for (let codeBlock of codeBlocks) {
+      let wrapper = document.createElement("div");
+      wrapper.style.position = "relative";
+
+      let copyButton = document.createElement("button");
+      copyButton.className =
+        "copy-code absolute right-3 -top-3 rounded bg-skin-card px-2 py-1 text-xs leading-4 text-skin-base font-medium";
+      copyButton.innerHTML = copyButtonLabel;
+      codeBlock.setAttribute("tabindex", "0");
+      codeBlock.appendChild(copyButton);
+
+      // wrap codebock with relative parent element
+      codeBlock?.parentNode?.insertBefore(wrapper, codeBlock);
+      wrapper.appendChild(codeBlock);
+
+      copyButton.addEventListener("click", async () => {
+        await copyCode(codeBlock, copyButton);
+      });
+    }
+
+    async function copyCode(block, button) {
+      let code = block.querySelector("code");
+      let text = code?.innerText;
+
+      await navigator.clipboard.writeText(text ?? "");
+
+      // visual feedback that task is completed
+      button.innerText = "Copied";
+
+      setTimeout(() => {
+        button.innerText = copyButtonLabel;
+      }, 700);
+    }
+  }
+  attachCopyButtons();
+
+  /** Scrolls the document to the top when
+   * the "Back to Top" button is clicked. */
+  function backToTop() {
+    document.querySelector("#back-to-top")?.addEventListener("click", () => {
+      document.body.scrollTop = 0; // For Safari
+      document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+    });
+  }
+  backToTop();
+</script></body></html>

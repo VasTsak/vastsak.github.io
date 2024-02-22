@@ -28,10 +28,6 @@ jobs:
 
       - name: Install, build, and upload your site
         uses: withastro/action@v1
-        # with:
-        #   path: .
-        #   node-version: 18
-        #   package-manager: yarn # Explicitly specify if needed, but it should detect yarn.lock automatically.
 
   deploy:
     needs: build

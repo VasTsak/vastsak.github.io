@@ -1,31 +1,32 @@
 ---
-// Import necessary components and utilities.
-import Header from '@components/Header.astro';
-import Footer from '@components/Footer.astro';
-import Layout from '@layouts/Layout.astro';
-import Main from '@layouts/Main.astro';
-import Tag from '@components/Tag.astro';
-import getUniqueTags from '@utils/getUniqueTags';
-import { SITE } from '@config';
-import { getPosts } from '@utils/collections';
+import TagPosts from "@layouts/TagPosts.astro";
+import getPostsByTag from "@utils/getPostsByTag";
+import getPagination from "@utils/getPagination";
+import getUniqueTags from "@utils/getUniqueTags";
+import { getPosts } from "@utils/collections";
 
-// Assuming these async functions are defined to fetch your data.
-const posts = await getPosts();
-let tags = getUniqueTags(posts);
+export async function getStaticPaths() {
+  const posts = await getPosts();
+
+  const tags = getUniqueTags(posts);
+
+  return tags.map(({ tag, tagName }) => {
+    return {
+      params: { tag },
+      props: { tag, tagName, posts },
+    };
+  });
+}
+
+const { tag, tagName, posts } = Astro.props;
+
+const postsByTag = getPostsByTag(posts, tag);
+
+const pagination = getPagination({
+  posts: postsByTag,
+  page: 1,
+  isIndex: true,
+});
 ---
 
-<Layout title={`${SITE.title} | Tags`}>
-  <Header activeNav="tags" />
-  <Main pageTitle="Tags">
-    <!-- List of tags -->
-    <ul>
-      {tags.map(({ tag }) => (
-        <li>
-          <!-- Assuming Tag is a custom component for displaying each tag -->
-          <Tag tag={tag} size="lg" />
-        </li>
-      ))}
-    </ul>
-  </Main>
-  <Footer />
-</Layout>
+<TagPosts {...pagination} {tag} {tagName} />

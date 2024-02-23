@@ -1,29 +1,24 @@
 ---
-import TagPosts from "@layouts/TagPosts.astro";
-import getPostsByTag from "@utils/getPostsByTag";
-import getPagination from "@utils/getPagination";
+import Header from "@components/Header.astro";
+import Footer from "@components/Footer.astro";
+import Layout from "@layouts/Layout.astro";
+import Main from "@layouts/Main.astro";
+import Tag from "@components/Tag.astro";
 import getUniqueTags from "@utils/getUniqueTags";
+import { SITE } from "@config";
 import { getPosts } from "@utils/collections";
 
-export async function getStaticPaths() {
-  const posts = await getPosts();
-  const tags = getUniqueTags(posts);
-  return tags.map(({ tag, tagName }) => {
-    return {
-      params: { tag },
-      props: { tag, tagName, posts },
-    };
-  });
-}
-const { tag, tagName, posts } = Astro.props;
+const posts = await getPosts();
 
-const postsByTag = getPostsByTag(posts, tag);
-const pagination = getPagination({
-  posts: postsByTag,
-  page: 1,
-  isIndex: true,
-});
-
+let tags = getUniqueTags(posts);
 ---
 
-<TagPosts {...pagination} {tag} {tagName} />
+<Layout title={`${SITE.title} | Tags`}>
+  <Header activeNav="tags" />
+  <Main pageTitle="Tags">
+    <ul>
+      {tags.map(({ tag }) => <Tag {tag} size="lg" />)}
+    </ul>
+  </Main>
+  <Footer />
+</Layout>

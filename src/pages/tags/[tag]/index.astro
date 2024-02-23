@@ -1,15 +1,16 @@
 ---
-import Header from "@components/Header.astro";
-import Footer from "@components/Footer.astro";
-import Layout from "@layouts/Layout.astro";
-import Main from "@layouts/Main.astro";
-import Tag from "@components/Tag.astro";
-import getUniqueTags from "@utils/getUniqueTags";
-import { SITE } from "@config";
-import { getPosts } from "@utils/collections";
+// Import statements to include necessary components and utilities.
+import Header from '@components/Header.astro';
+import Footer from '@components/Footer.astro';
+import Layout from '@layouts/Layout.astro';
+import Main from '@layouts/Main.astro';
+import Tag from '@components/Tag.astro';
+import getUniqueTags from '@utils/getUniqueTags';
+import { SITE } from '@config';
+import { getPosts } from '@utils/collections';
 
+// Async operations to fetch posts and then derive unique tags from those posts.
 const posts = await getPosts();
-
 let tags = getUniqueTags(posts);
 ---
 
@@ -17,7 +18,12 @@ let tags = getUniqueTags(posts);
   <Header activeNav="tags" />
   <Main pageTitle="Tags">
     <ul>
-      {tags.map(({ tag }) => <Tag {tag} size="lg" />)}
+      {/* Dynamically generate list items for each tag. */}
+      {tags.map(({ tag }) => (
+        <li key={tag}>
+          <Tag tag={tag} size="lg" />
+        </li>
+      ))}
     </ul>
   </Main>
   <Footer />

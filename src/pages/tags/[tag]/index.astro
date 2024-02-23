@@ -1,5 +1,5 @@
 ---
-// Import statements to include necessary components and utilities.
+// Import necessary components and utilities.
 import Header from '@components/Header.astro';
 import Footer from '@components/Footer.astro';
 import Layout from '@layouts/Layout.astro';
@@ -9,7 +9,7 @@ import getUniqueTags from '@utils/getUniqueTags';
 import { SITE } from '@config';
 import { getPosts } from '@utils/collections';
 
-// Async operations to fetch posts and then derive unique tags from those posts.
+// Assuming these async functions are defined to fetch your data.
 const posts = await getPosts();
 let tags = getUniqueTags(posts);
 ---
@@ -17,10 +17,11 @@ let tags = getUniqueTags(posts);
 <Layout title={`${SITE.title} | Tags`}>
   <Header activeNav="tags" />
   <Main pageTitle="Tags">
+    <!-- List of tags -->
     <ul>
-      {/* Dynamically generate list items for each tag. */}
       {tags.map(({ tag }) => (
-        <li key={tag}>
+        <li>
+          <!-- Assuming Tag is a custom component for displaying each tag -->
           <Tag tag={tag} size="lg" />
         </li>
       ))}

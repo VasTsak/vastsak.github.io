@@ -1,32 +1,30 @@
 ---
+// Import your components and utilities
 import TagPosts from "@layouts/TagPosts.astro";
 import getPostsByTag from "@utils/getPostsByTag";
 import getPagination from "@utils/getPagination";
-import getUniqueTags from "@utils/getUniqueTags";
 import { getPosts } from "@utils/collections";
 
-export async function getStaticPaths() {
-  const posts = await getPosts();
+// Example: Assuming `getPosts`, `getPostsByTag`, and `getPagination` are async is for demonstration.
+// In a real scenario, adjust based on actual implementation.
 
-  const tags = getUniqueTags(posts);
-
-  return tags.map(({ tag, tagName }) => {
-    return {
-      params: { tag },
-      props: { tag, tagName, posts },
-    };
-  });
-}
-
-const { tag, tagName, posts } = Astro.props;
-
+// Simulate fetching or computing posts, tags, etc.
+const posts = await getPosts();
+const tag = Astro.request.params.tag; // Example of getting a tag from the URL params
 const postsByTag = getPostsByTag(posts, tag);
-
+const tagName = tag; // Assuming tag name is the same as the tag for simplicity, adjust as needed
 const pagination = getPagination({
   posts: postsByTag,
   page: 1,
   isIndex: true,
 });
+
+// Props to pass to TagPosts component
+const tagPostsProps = {
+  ...pagination,
+  tag: tag,
+  tagName: tagName,
+};
 ---
 
 <TagPosts {...pagination} {tag} {tagName} />

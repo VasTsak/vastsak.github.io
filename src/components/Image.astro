@@ -1,1 +1,7 @@
-<Image src="/assets/images/projects/trimate/tri_mate_logo.png" alt="Trimate Logo" />
+---
+// Example custom Image component
+// No props interface is required for basic usage, but you can define one for more complex components
+---
+
+<!-- Props are directly accessible via Astro.props -->
+<img src={Astro.props.src} alt={Astro.props.alt} class={Astro.props.class ?? ''} />

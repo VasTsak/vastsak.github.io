@@ -1,6 +1,5 @@
 ---
 import type { ProjectEntry } from "types";
-import { Image } from "astro:assets";
 
 export interface Props {
   href?: string;
@@ -12,7 +11,7 @@ const { title, description, projectImage } = frontmatter;
 ---
 
 <li class="card">
-  <Image class="image" src={projectImage} alt={title} />
+  <img class="image" src={projectImage} alt={title} loading="eager" />
   <div>
     <a class="link" href={href}>
       <h2 class="header line-clamp-2-inline">{title}</h2>
@@ -20,22 +19,3 @@ const { title, description, projectImage } = frontmatter;
     <p class="line-clamp-3-inline">{description}</p>
   </div>
 </li>
-
-<style>
-  .card {
-    @apply mt-6 flex h-36 overflow-hidden border-b border-skin-line pb-2;
-  }
-
-  .image {
-    @apply mr-4 h-full w-fit object-contain;
-  }
-
-  .link {
-    @apply inline-block text-lg font-medium text-skin-accent decoration-dashed underline-offset-4 focus-visible:no-underline focus-visible:underline-offset-0;
-  }
-
-  .header {
-    @apply text-lg font-medium decoration-dashed hover:underline;
-  }
-
-</style>

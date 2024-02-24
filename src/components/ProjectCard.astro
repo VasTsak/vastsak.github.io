@@ -1,4 +1,8 @@
 ---
+// Import your custom or Astro-provided Image component
+import Image from '../path/to/your/Image.astro';
+
+// Your existing props and frontmatter logic
 import type { ProjectEntry } from "types";
 
 export interface Props {
@@ -11,7 +15,7 @@ const { title, description, projectImage } = frontmatter;
 ---
 
 <li class="card">
-  <img class="image" src={projectImage} alt={title} loading="eager" />
+  <Image src={projectImage} alt={title} class="image" loading="eager" />
   <div>
     <a class="link" href={href}>
       <h2 class="header line-clamp-2-inline">{title}</h2>

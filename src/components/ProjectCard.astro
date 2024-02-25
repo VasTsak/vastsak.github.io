@@ -12,7 +12,7 @@ const { title, description, projectImage } = frontmatter;
 ---
 
 <li class="card">
-  <Image class="image" src={projectImage} alt={title} />
+  <Image class="image" src={projectImage} alt={title} loading="eager" />
   <div>
     <a class="link" href={href}>
       <h2 class="header line-clamp-2-inline">{title}</h2>

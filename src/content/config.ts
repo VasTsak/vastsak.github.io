@@ -33,10 +33,10 @@ const projects = defineCollection({
       title: z.string(),
       featured: z.boolean().optional(),
       draft: z.boolean().optional(),
-      //projectImage: image()
-      //  .refine(img => img.width == img.height && img.width >= 200, {
-      //    message: "Project image must be square and at least 200 pixels!",
-      //  }),
+      projectImage: image()
+        .refine(img => img.width == img.height && img.width >= 200, {
+          message: "Project image must be square and at least 200 pixels!",
+        }),
       ogImage: image()
         .refine(img => img.width >= 1200 && img.height >= 630, {
           message: "OpenGraph image must be at least 1200 X 630 pixels!",

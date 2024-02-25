@@ -4,4 +4,4 @@ Disallow: /nogooglebot/
 User-agent: *
 Allow: /
 
-Sitemap: https://vtsakalos.com/sitemap-index.xml
+Sitemap: https://www.vtsakalos.com/sitemap-index.xml

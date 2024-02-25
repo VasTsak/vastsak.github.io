@@ -166,6 +166,13 @@ declare module 'astro:content' {
 } & { render(): Render[".md"] };
 };
 "projects": {
+"test.mdx": {
+	id: "test.mdx";
+  slug: "test";
+  body: string;
+  collection: "projects";
+  data: InferEntrySchema<"projects">
+} & { render(): Render[".mdx"] };
 "trimate.mdx": {
 	id: "trimate.mdx";
   slug: "trimate";

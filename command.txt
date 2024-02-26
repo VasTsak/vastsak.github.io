@@ -1,1 +1,0 @@
-certbot certonly --manual --preferred-challenges=dns -d vastsak.github.io -d www.vastsak.github.io

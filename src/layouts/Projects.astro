@@ -12,6 +12,8 @@ export interface Props {
 }
 
 const { posts } = Astro.props;
+console.log(posts);
+
 ---
 
 <Layout title={`${SITE.title} | Projects`}>
@@ -19,7 +21,7 @@ const { posts } = Astro.props;
   <Main pageTitle="Projects">
     <ul>
       {
-        posts.map(({ data, slug }) => (
+        posts.map(({ data, slug }) =>(
           <ProjectCard href={`/projects/${slug}/`} frontmatter={data} />
         ))
       }

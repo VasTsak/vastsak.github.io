@@ -1,5 +1,5 @@
 ---
-title: Build a kafka application in Python and Go
+title: Object-Oriented Programming - Crafting Intelligent Systems with Code
 description: Dive into the intersection of Object-Oriented Programming (OOP) and machine learning in our blog. Explore how OOP principles enhance the development and deployment of machine learning models, leveraging encapsulation, inheritance, and polymorphism to build scalable and efficient solutions.
 author: Vasileios Tsakalos
 pubDatetime: 2023-11-14T08:29:32.283Z
@@ -26,10 +26,7 @@ Object oriented programming has four main principles
 
 Abstraction is the process of hiding the implementation details of an object from the outside world. Think about your coffee machine, you only want to make your coffee by pushing one button, you don't want to know what happens inside the machine.
 
-<div style="text-align:center">
-    <img src="../../assets/images/posts/oop_ml/coffee_machine.webp" alt="iqred" width="300">
-</div>
-
+![iqr](../../assets/images/posts/oop_ml/coffee_machine.webp)
 
 ### Pros:
 
@@ -100,10 +97,7 @@ We can see the benefits of abstraction on the example above, the user doesn't ne
 
 Encapsulation is a programming concept that bundles attributes and methods which operate in those attributes in a single unit. This allow us to hide and protect the internal state of the classes' attributes by managing how they are used and accessed. Think of your coffee machine again, you don't have access (easily) to the mechanics (inside the box) because it is best for you not to mess something up.
 
-
-<div style="text-align:center">
-    <img src="../../assets/images/posts/oop_ml/coffee_machine_encaps.webp" alt="iqred" width="300">
-</div>
+![iqr](../../assets/images/posts/oop_ml/coffee_machine_encaps.webp)
 
 ### Pros:
 
@@ -181,9 +175,7 @@ You can see that by using a getter function you can control what the user can se
 
 In OOP, inheritance is a way for a class to inherit the characteristics (attributes) and behaviours (methods) of another class. You can create a new class using an existing class, and then you can modify its own unique features. Just like your coffee machine that is a water processing machine which has common attributes and behaviours with other water processing machines such as a kettle or a tea maker.
 
-<div style="text-align:center">
-    <img src="../../assets/images/posts/oop_ml/inheritance.webp" alt="iqred" width="500">
-</div>
+![iqr](../../assets/images/posts/oop_ml/inheritance.webp)
 
 
 ### Pros
@@ -270,9 +262,7 @@ We can see that we use the predict class but the threshold is applied. The third
 
 The term "polymorphism" has its roots in the Greek language, specifically in the Greek words "poly" (many) and "morph" (form / shape). This core principle refers to the ability of subclasses to have many different forms while having the same base class. Polymorphism can  be achieved with method overriding and method overloading. Just like your coffee machine which is a water processing machine, but it is used to make coffee and it is different from a kettle and a tea maker which are also water processing machines.
 
-<div style="text-align:center">
-    <img src="../../assets/images/posts/oop_ml/polymorphism.webp" alt="iqred" width="500">
-</div>
+![iqr](../../assets/images/posts/oop_ml/polymorphism.webp)
 
 ### Method Overriding
 

@@ -80,42 +80,26 @@ function oe(s) {
     return s == null ? s === void 0 ? "[object Undefined]" : "[object Null]" : Object.prototype.toString.call(s);
 }
 
-const Ne = s => `Missing ${s} property in key`,
-    Le = s => `Property 'weight' in key '${s}' must be a positive integer`,
-    X = Object.prototype.hasOwnProperty;
+// Removed unused functions and variables: Ne, Le, X, K, Z
 
-function Z(s) {
-    return w(s) ? s : s.split(".");
-}
-
-function K(s) {
-    return w(s) ? s.join(".") : s;
-}
-
-function ke(s, e) {
-    let t = [], n = !1;
-    const r = (i, c, a) => {
-        if (x(i))
-            if (!c[a]) t.push(i);
-            else {
-                let o = c[a];
-                const h = i[o];
-                if (!x(h)) return;
-                if (a === c.length - 1 && (E(h) || ie(h) || Ie(h))) t.push(we(h));
-                else if (w(h)) {
-                    n = !0;
-                    for (let l = 0, f = h.length; l < f; l += 1) r(h[l], c, a + 1);
-                } else c.length && r(h, c, a + 1);
-            }
-    };
-    return r(s, E(e) ? e.split(".") : e, 0), n ? t : t[0];
-}
-
-const Oe = { includeMatches: !1, findAllMatches: !1, minMatchCharLength: 1 },
-    $e = { isCaseSensitive: !1, includeScore: !1, keys: [], shouldSort: !0, sortFn: (s, e) => s.score === e.score ? s.idx < e.idx ? -1 : 1 : s.score < e.score ? -1 : 1 },
-    Ce = { location: 0, threshold: .6, distance: 100 },
-    Te = { useExtendedSearch: !1, getFn: ke, ignoreLocation: !1, ignoreFieldNorm: !1, fieldNormWeight: 1 };
-var u = { ...$e, ...Oe, ...Ce, ...Te };
+const u = {
+    isCaseSensitive: !1,
+    includeScore: !1,
+    keys: [],
+    shouldSort: !0,
+    sortFn: (s, e) => s.score === e.score ? s.idx < e.idx ? -1 : 1 : s.score < e.score ? -1 : 1,
+    includeMatches: !1,
+    findAllMatches: !1,
+    minMatchCharLength: 1,
+    location: 0,
+    threshold: .6,
+    distance: 100,
+    useExtendedSearch: !1,
+    getFn: ke,
+    ignoreLocation: !1,
+    ignoreFieldNorm: !1,
+    fieldNormWeight: 1
+};
 
 const Fe = /[^ ]+/g;
 

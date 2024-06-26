@@ -31,7 +31,7 @@ P.Fragment = xe;
 P.jsx = re;
 P.jsxs = re;
 ne.exports = P;
-var g = ne.exports;
+// var g = ne.exports;
 
 function w(s) {
     return Array.isArray ? Array.isArray(s) : oe(s) === "[object Array]";
@@ -81,41 +81,41 @@ function oe(s) {
     return s == null ? s === void 0 ? "[object Undefined]" : "[object Null]" : Object.prototype.toString.call(s);
 }
 
-const ve = "Incorrect 'index' type",
-    Ae = s => `Invalid value for key ${s}`,
-    Re = s => `Pattern length exceeds max of ${s}.`,
-    Ne = s => `Missing ${s} property in key`,
+// const ve = "Incorrect 'index' type",
+// Ae = s => `Invalid value for key ${s}`,
+// Re = s => `Pattern length exceeds max of ${s}.`,
+const Ne = s => `Missing ${s} property in key`,
     Le = s => `Property 'weight' in key '${s}' must be a positive integer`,
     X = Object.prototype.hasOwnProperty;
 
-class je {
-    constructor(e) {
-        this._keys = [];
-        this._keyMap = {};
-        let t = 0;
-        e.forEach(n => {
-            let r = ae(n);
-            this._keys.push(r);
-            this._keyMap[r.id] = r;
-            t += r.weight;
-        });
-        this._keys.forEach(n => {
-            n.weight /= t;
-        });
-    }
+// class je {
+//     constructor(e) {
+//         this._keys = [];
+//         this._keyMap = {};
+//         let t = 0;
+//         e.forEach(n => {
+//             let r = ae(n);
+//             this._keys.push(r);
+//             this._keyMap[r.id] = r;
+//             t += r.weight;
+//         });
+//         this._keys.forEach(n => {
+//             n.weight /= t;
+//         });
+//     }
 
-    get(e) {
-        return this._keyMap[e];
-    }
+//     get(e) {
+//         return this._keyMap[e];
+//     }
 
-    keys() {
-        return this._keys;
-    }
+//     keys() {
+//         return this._keys;
+//     }
 
-    toJSON() {
-        return JSON.stringify(this._keys);
-    }
-}
+//     toJSON() {
+//         return JSON.stringify(this._keys);
+//     }
+// }
 
 function ae(s) {
     let e = null,

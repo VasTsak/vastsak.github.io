@@ -1,5 +1,6 @@
 import { r as N } from "./index.NEDEFKed.js";
-var ne = { exports: {} }, P = {};
+
+var ne = { exports: {} };
 
 /**
  * @license React
@@ -27,12 +28,16 @@ function re(s, e, t) {
         for (n in e = s.defaultProps, e) r[n] === void 0 && (r[n] = e[n]);
     return { $$typeof: me, type: s, key: i, ref: c, props: r, _owner: ye.current };
 }
-P.Fragment = xe;
-P.jsx = re;
-P.jsxs = re;
-ne.exports = P;
 
-// Removed unused functions: we, ie, Ie
+class P {
+    constructor() {
+        this.Fragment = xe;
+        this.jsx = re;
+        this.jsxs = re;
+    }
+}
+
+ne.exports = new P();
 
 const u = {
     isCaseSensitive: !1,

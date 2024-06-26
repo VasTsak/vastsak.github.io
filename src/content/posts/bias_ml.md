@@ -13,6 +13,7 @@ tags:
 type: post
 ---
 
+
 Machine learning (ML) has become an integral part of our lives, powering everything from recommendation systems to medical diagnoses. However, these powerful algorithms are not immune to bias, which can lead to unfair and discriminatory outcomes. One example of bias that recently made headlines is Gemini's recent <a href="https://www.theverge.com/2024/2/21/24079371/google-ai-gemini-generative-inaccurate-historical">release</a>.
 
 This article delves into the different types of biases that can infiltrate machine learning models, explores their real-world consequences, and provides insights on how to mitigate them.

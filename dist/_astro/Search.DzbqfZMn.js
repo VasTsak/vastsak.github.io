@@ -32,55 +32,7 @@ P.jsx = re;
 P.jsxs = re;
 ne.exports = P;
 
-function w(s) {
-    return Array.isArray ? Array.isArray(s) : oe(s) === "[object Array]";
-}
-
-const Ee = 1 / 0;
-
-function Se(s) {
-    if (typeof s == "string") return s;
-    let e = s + "";
-    return e == "0" && 1 / s == -Ee ? "-0" : e;
-}
-
-function we(s) {
-    return s == null ? "" : Se(s);
-}
-
-function E(s) {
-    return typeof s == "string";
-}
-
-function ie(s) {
-    return typeof s == "number";
-}
-
-function Ie(s) {
-    return s === !0 || s === !1 || be(s) && oe(s) === "[object Boolean]";
-}
-
-function ce(s) {
-    return typeof s == "object";
-}
-
-function be(s) {
-    return ce(s) && s !== null;
-}
-
-function x(s) {
-    return s != null;
-}
-
-function H(s) {
-    return !s.trim().length;
-}
-
-function oe(s) {
-    return s == null ? s === void 0 ? "[object Undefined]" : "[object Null]" : Object.prototype.toString.call(s);
-}
-
-// Removed unused functions and variables: Ne, Le, X, K, Z
+// Removed unused functions: we, ie, Ie
 
 const u = {
     isCaseSensitive: !1,

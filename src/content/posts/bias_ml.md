@@ -1,5 +1,5 @@
 ---
-title: Unmasking Bias in Machine Learning: A Comprehensive Guide
+title: Unmasking Bias in Machine Learning - A Comprehensive Guide
 description: Explore the types of biases in machine learning models, their real-world impacts, and strategies to mitigate them, ensuring fair and equitable AI systems. This guide covers data, algorithmic, and decision scientist biases, along with practical solutions for addressing each.
 author: Vasileios Tsakalos
 pubDatetime: 2024-05-08T18:00:00.000Z

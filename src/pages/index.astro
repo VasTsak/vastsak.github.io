@@ -5,15 +5,19 @@ import Footer from "@components/Footer.astro";
 import LinkButton from "@components/LinkButton.astro";
 import Hr from "@components/Hr.astro";
 import PostCard from "@components/PostCard";
+import ProjectCard from "@components/ProjectCard.astro";
 import getSortedPosts from "@utils/getSortedPosts";
 import Main from "@layouts/Main.astro";
-import { getPosts } from "@utils/collections";
+import { getPosts, getProjects } from "@utils/collections";
 
 const posts = await getPosts();
+const projects = await getProjects();
 
 const sortedPosts = getSortedPosts(posts);
 const featuredPosts = sortedPosts.filter(({ data }) => data.featured);
 const recentPosts = sortedPosts.filter(({ data }) => !data.featured);
+const sortedProjects = getSortedPosts(projects);
+const featuredProjects = sortedProjects.slice(0, 3);
 
 let featuredPostsDisplayCount = Math.min(featuredPosts.length, 3);
 let recentPostsDisplayCount = Math.min(recentPosts.length, 5 - featuredPostsDisplayCount);
@@ -23,11 +27,46 @@ let recentPostsDisplayCount = Math.min(recentPosts.length, 5 - featuredPostsDisp
   <Header />
   <Main>
     <section id="services" class="prose max-w-full">
-      <p>
-        I build data products and production AI systems—from statistical modeling to GenAI and agentic workflows. I’m focused on turning ambiguous questions into measurable outcomes through rigorous evaluation, strong engineering, and close collaboration with stakeholders.
-        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-arrow-big-up" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round" ><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M9 20v-8h-3.586a1 1 0 0 1 -.707 -1.707l6.586 -6.586a1 1 0 0 1 1.414 0l6.586 6.586a1 1 0 0 1 -.707 1.707h-3.586v8a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1z"></path></svg>
-      </p>
+      <div class="hero-card rounded-2xl border border-skin-line bg-skin-card/70 p-6 shadow-sm sm:p-8">
+        <p class="mb-3 text-sm font-semibold uppercase tracking-[0.2em] text-skin-accent">
+          Data Scientist & Applied ML/GenAI Engineer
+        </p>
+        <h2 class="mb-4 text-3xl font-semibold leading-tight">
+          Building production AI systems that turn ideas into measurable impact.
+        </h2>
+        <p class="mb-6 text-lg leading-relaxed">
+          I work at the intersection of product strategy, rigorous evaluation, and pragmatic engineering—shipping GenAI, agentic, and ML systems that are used in the real world.
+        </p>
+        <div class="flex flex-wrap gap-3">
+          <LinkButton href="/projects/" className="inline-flex items-center rounded-full border border-skin-accent px-4 py-2 font-medium text-skin-accent transition hover:bg-skin-accent hover:text-skin-inverted">
+            Explore Projects
+          </LinkButton>
+          <LinkButton href="/about/" className="inline-flex items-center rounded-full border border-skin-line px-4 py-2 font-medium transition hover:border-skin-accent hover:text-skin-accent">
+            About Me
+          </LinkButton>
+          <LinkButton href="/cv.pdf" newTab className="inline-flex items-center rounded-full border border-skin-line px-4 py-2 font-medium transition hover:border-skin-accent hover:text-skin-accent">
+            Download CV
+          </LinkButton>
+        </div>
+      </div>
     </section>
+
+    {featuredProjects.length > 0 && (
+      <section id="featured-projects" class="pt-8">
+        <div class="mb-4 flex items-center justify-between">
+          <h2 class="text-2xl font-semibold tracking-wide">Featured Projects</h2>
+          <LinkButton href="/projects/" className="text-sm font-medium text-skin-accent hover:underline">
+            View all
+          </LinkButton>
+        </div>
+        <ul>
+          {featuredProjects.map(({ data, slug }) => (
+            <ProjectCard href={`/projects/${slug}/`} frontmatter={data} />
+          ))}
+        </ul>
+      </section>
+    )}
+
     {
       featuredPosts.length > 0 && (
         <>
@@ -84,5 +123,8 @@ let recentPostsDisplayCount = Math.min(recentPosts.length, 5 - featuredPostsDisp
   }
   .all-posts-btn-wrapper {
     @apply my-8 text-center;
+  }
+  .hero-card {
+    @apply backdrop-blur-sm;
   }
 </style>

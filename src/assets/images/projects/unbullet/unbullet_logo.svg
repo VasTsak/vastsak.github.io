@@ -1,0 +1,7 @@
+<svg width="200" height="200" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <rect width="200" height="200" rx="24" fill="#0f172a"/>
+  <circle cx="100" cy="100" r="72" fill="#38bdf8" opacity="0.18"/>
+  <path d="M70 60h34c18 0 32 14 32 32s-14 32-32 32H70V60Z" fill="#f8fafc"/>
+  <path d="M70 124h34c18 0 32 14 32 32v4H70v-36Z" fill="#38bdf8"/>
+  <text x="100" y="182" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" font-weight="700" fill="#f8fafc">UNBULLET</text>
+</svg>

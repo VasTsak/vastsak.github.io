@@ -3,7 +3,7 @@ import type { Site, SocialObjects } from "./types";
 export const SITE: Site = {
   website: "https://www.vtsakalos.com/",
   author: "Vasileios Tsakalos",
-  desc: "Projects, Services & Posts by Vasileios Tsakalos",
+  desc: "Data scientist and applied ML/GenAI engineer building production AI systems, agentic products, and data platforms",
   title: "Vasileios Tsakalos",
   lightAndDarkMode: true,
   ogImage: "og.png",
@@ -49,13 +49,13 @@ export const SOCIALS: SocialObjects = [
   },
   {
     name: "Github",
-    href: "https://github.com/sponsors/VasTsak",
+    href: "https://github.com/VasTsak",
     linkTitle: "Vasileios Tsakalos on GitHub",
     active: true,
   },
   {
     name: "Mail",
-    href: "mailto:vtsakalos@proton.me",
+    href: "mailto:vasileios.m.tsakalos@gmail.com",
     linkTitle: "Send an email to Vasileios Tsakalos",
     active: true,
   },

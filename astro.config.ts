@@ -2,7 +2,6 @@ import { defineConfig, passthroughImageService } from "astro/config";
 import tailwind from "@astrojs/tailwind";
 import react from "@astrojs/react";
 import remarkToc from "remark-toc";
-import sitemap from "@astrojs/sitemap";
 import mdx from '@astrojs/mdx';
 import { SITE } from "./src/config";
 
@@ -14,7 +13,6 @@ export default defineConfig({
       applyBaseStyles: false,
     }),
     react(),
-    sitemap(),
     mdx(),
   ],
   image: {

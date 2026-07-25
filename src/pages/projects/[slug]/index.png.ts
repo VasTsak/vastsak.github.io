@@ -15,7 +15,9 @@ export async function getStaticPaths() {
   }));
 }
 
-export const GET: APIRoute = async ({ props }) =>
-  new Response(await generateOgImageForProject(props as ProjectEntry), {
+export const GET: APIRoute = async ({ props }) => {
+  const imageBuffer = await generateOgImageForProject(props as ProjectEntry);
+  return new Response(new Uint8Array(imageBuffer), {
     headers: { "Content-Type": "image/png" },
   });
+};

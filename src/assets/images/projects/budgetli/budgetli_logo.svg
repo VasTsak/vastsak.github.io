@@ -1,0 +1,5 @@
+<svg width="200" height="200" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <rect width="200" height="200" rx="24" fill="#D03B3B"/>
+  <path d="M88 36h24v44h44v24h-44v44H88v-44H44V80h44V36Z" fill="#f8fafc"/>
+  <text x="100" y="182" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" font-weight="700" fill="#f8fafc">BUDGETLI</text>
+</svg>

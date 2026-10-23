@@ -1,0 +1,32 @@
+---
+title: Budgetli
+description: A household budgeting app for Switzerland that turns gross salary into take-home pay after Swiss social insurance and taxes, then budgets, tracks spending, and plans savings goals.
+projectImage: ../../assets/images/projects/budgetli/budgetli_logo.svg
+author: Vasileios Tsakalos
+pubDatetime: 2026-07-29T00:00:00.000Z
+slug: budgetli
+tags:
+  - Python
+  - FastAPI
+  - TypeScript
+  - React
+  - PostgreSQL
+  - Swift
+type: project
+---
+
+import LinkButton from "@components/LinkButton.astro";
+
+Budgetli is a household budgeting app built for Switzerland. You give it a gross salary and a postal code, and it works out what you actually take home after social insurance and federal, cantonal and communal tax. It then sizes a monthly budget against that, tracks what you really spent, and tells you whether your savings goals will land on time.
+
+**Role:** Founder · 2026 – Present
+
+## What I’m building
+- Gross-to-net calculation covering AHV/IV/EO, ALV, accident cover, the 2nd pillar, and federal, cantonal and communal tax, with every step shown as a labelled line
+- Postal-code-to-canton lookup, so the right tax scale follows from where you live
+- Budget buckets split into needs, wants and savings, with yearly bills set aside a twelfth at a time
+- Spending ledger and savings goals that reconcile plan against actual and track whether each goal is on time
+- Shared household budgets, with costs split by salary and joint or separate tax assessment handled correctly
+- End-to-end ownership of the full stack: FastAPI and PostgreSQL backend, React web app, and a native SwiftUI iOS app
+
+<LinkButton href="https://www.budgetli.ch" newTab>Visit Budgetli</LinkButton>
